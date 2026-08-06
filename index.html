@@ -1,0 +1,2356 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>아빠의 네모로직 - 무료 노노그램 퍼즐 게임</title>
+  <meta name="description" content="아빠의 네모로직 - 큰 글씨와 넉넉한 버튼으로 어르신도 편하게 즐기는 무료 노노그램 퍼즐 게임. 쉬움·보통·어려움·전문가 4단계 난이도, 힌트·오답 표시 기능과 기록 저장을 지원합니다.">
+  <link rel="canonical" href="https://nonogramlee.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="아빠의 네모로직 - 무료 노노그램 퍼즐 게임">
+  <meta property="og:description" content="아빠의 네모로직 - 큰 글씨와 넉넉한 버튼으로 어르신도 편하게 즐기는 무료 노노그램 퍼즐 게임. 쉬움·보통·어려움·전문가 4단계 난이도, 힌트·오답 표시 기능과 기록 저장을 지원합니다.">
+  <meta property="og:url" content="https://nonogramlee.github.io/">
+  <meta property="og:site_name" content="아빠의 네모로직">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:image" content="https://nonogramlee.github.io/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="아빠의 네모로직 로고">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="아빠의 네모로직 - 무료 노노그램 퍼즐 게임">
+  <meta name="twitter:description" content="아빠의 네모로직 - 큰 글씨와 넉넉한 버튼으로 어르신도 편하게 즐기는 무료 노노그램 퍼즐 게임입니다.">
+  <meta name="twitter:image" content="https://nonogramlee.github.io/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "아빠의 네모로직",
+    "url": "https://nonogramlee.github.io/",
+    "description": "아빠의 네모로직 - 큰 글씨와 넉넉한 버튼으로 어르신도 편하게 즐기는 무료 노노그램 퍼즐 게임입니다.",
+    "inLanguage": "ko"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "아빠의 네모로직",
+    "url": "https://nonogramlee.github.io/",
+    "description": "아빠의 네모로직 - 큰 글씨와 넉넉한 버튼으로 어르신도 편하게 즐기는 무료 노노그램 퍼즐 게임입니다.",
+    "inLanguage": "ko",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "KRW"
+    },
+    "featureList": [
+      "4단계 난이도 (쉬움/보통/어려움/전문가)",
+      "힌트 기능",
+      "X 표시 모드",
+      "기록 저장"
+    ]
+  }
+  </script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* ── Elderly-Friendly Color System ── */
+  --bg:#FFFFFF;
+  --surface:#FFFFFF;
+  --surface-raised:#F3F4F6;
+  --border:#374151;
+  --border-thin:#9CA3AF;
+  --border-thick:#1F2937;
+  --primary:#2563EB;
+  --primary-hover:#1D4ED8;
+  --primary-light:#DBEAFE;
+  --primary-ring:rgba(37,99,235,0.35);
+  --error:#DC2626;
+  --error-bg:#FEE2E2;
+  --error-ring:rgba(220,38,38,0.30);
+  --success:#059669;
+  --success-bg:#D1FAE5;
+  --text:#111827;
+  --text-secondary:#374151;
+  --text-muted:#6B7280;
+  --cell-bg:#FFFFFF;
+  --cell-filled:#111827;
+  --clue-bg:#F3F4F6;
+  --clue-active:#FFE066;
+
+  /* ── Spacing Scale (8px base) ── */
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:20px;
+  --space-6:24px;
+  --space-8:32px;
+  --space-10:40px;
+
+  /* ── Typography ── */
+  --font-family:-apple-system,BlinkMacSystemFont,'Malgun Gothic','맑은 고딕',sans-serif;
+  --text-xs:13px;
+  --text-sm:15px;
+  --text-base:18px;
+  --text-lg:22px;
+  --text-xl:26px;
+  --text-2xl:30px;
+  --text-3xl:38px;
+  --weight-regular:400;
+  --weight-medium:500;
+  --weight-semibold:600;
+  --weight-bold:700;
+  --weight-extrabold:800;
+  --line-height:1.6;
+
+  /* ── Touch Targets ── */
+  --touch-min:56px;
+  --cell-size:clamp(40px,10.5vw,54px);
+  --btn-radius:12px;
+  --radius:12px;
+  --radius-sm:8px;
+  --radius-lg:20px;
+
+  /* ── Shadows ── */
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.10);
+  --shadow-md:0 2px 8px rgba(0,0,0,0.12);
+  --shadow-lg:0 4px 16px rgba(0,0,0,0.14);
+
+  /* ── Transitions ── */
+  --transition-fast:150ms ease;
+  --transition-base:200ms ease;
+}
+html{
+  touch-action:manipulation;
+  -webkit-touch-callout:none;
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-text-size-adjust:100%;
+}
+body{
+  font-family:var(--font-family);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100dvh;
+  display:flex;
+  flex-direction:column;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  font-size:var(--text-base);
+  line-height:var(--line-height);
+  font-weight:var(--weight-regular);
+}
+
+/* ═══════════════════════════════════════
+   CONTAINER
+   ═══════════════════════════════════════ */
+.container{
+  width:100%;
+  max-width:460px;
+  margin:0 auto;
+  padding:0 var(--space-4);
+  display:flex;
+  flex-direction:column;
+  min-height:100dvh;
+}
+
+/* ═══════════════════════════════════════
+   HEADER — Simplified, large, clear
+   ═══════════════════════════════════════ */
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:var(--space-3) 0 var(--space-2);
+  flex-shrink:0;
+  gap:var(--space-2);
+}
+.logo{
+  font-size:clamp(18px,5vw,32px);
+  font-weight:var(--weight-extrabold);
+  letter-spacing:-0.5px;
+  color:var(--text);
+  line-height:1.2;
+  white-space:nowrap;
+}
+.logo-accent{color:var(--primary)}
+.header-actions{
+  display:flex;
+  gap:var(--space-1);
+  flex-shrink:0;
+}
+.header-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:var(--space-1);
+  padding:var(--space-2) var(--space-3);
+  border-radius:var(--btn-radius);
+  border:2.5px solid var(--primary);
+  background:var(--primary);
+  color:#FFFFFF;
+  font-size:var(--text-sm);
+  font-weight:var(--weight-bold);
+  font-family:var(--font-family);
+  cursor:pointer;
+  transition:all var(--transition-base);
+  min-height:40px;
+  white-space:nowrap;
+  line-height:1.2;
+  -webkit-tap-highlight-color:transparent;
+}
+.header-btn:only-child{
+  padding:var(--space-3) var(--space-5);
+}
+.header-btn-outline{
+  background:#FFFFFF;
+  color:#111827;
+  border:2px solid #111827;
+  padding:var(--space-2) var(--space-3);
+  font-size:var(--text-sm);
+  font-weight:var(--weight-bold);
+}
+.header-btn-outline:active{
+  background:#F3F4F6;
+  transform:scale(0.97);
+}
+
+/* ═══════════════════════════════════════
+   STATUS BAR — Large, prominent
+   ═══════════════════════════════════════ */
+.status-bar{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:var(--space-1) 0 var(--space-2);
+  flex-shrink:0;
+  gap:var(--space-2);
+}
+.status-item{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:var(--space-2) var(--space-3);
+  border-radius:var(--radius);
+  border:2px solid var(--border);
+  min-height:40px;
+  box-sizing:border-box;
+  margin:0;
+  font-size:var(--text-sm);
+  font-weight:var(--weight-bold);
+  white-space:nowrap;
+  line-height:1;
+}
+.difficulty-badge{
+  background:var(--primary-light);
+  color:var(--primary);
+  letter-spacing:0.3px;
+  border-color:var(--primary);
+  transition:all var(--transition-base);
+}
+.difficulty-badge[data-diff="easy"]{
+  background:#D1FAE5;
+  color:#059669;
+  border-color:#059669;
+}
+.difficulty-badge[data-diff="medium"]{
+  background:#DBEAFE;
+  color:#2563EB;
+  border-color:#2563EB;
+}
+.difficulty-badge[data-diff="hard"]{
+  background:#FEF3C7;
+  color:#D97706;
+  border-color:#D97706;
+}
+.difficulty-badge[data-diff="expert"]{
+  background:#FEE2E2;
+  color:#DC2626;
+  border-color:#DC2626;
+}
+.timer-group{
+  background:var(--surface-raised);
+}
+.timer{
+  font-variant-numeric:tabular-nums;
+  letter-spacing:0.5px;
+}
+.status-btn{
+  background:var(--surface);
+  color:var(--text-secondary);
+  font-family:var(--font-family);
+  cursor:pointer;
+  transition:all var(--transition-base);
+  -webkit-tap-highlight-color:transparent;
+}
+.status-btn:active{
+  background:var(--primary-light);
+  border-color:var(--primary);
+  color:var(--primary);
+}
+.score-display{
+  color:var(--text);
+  background:var(--surface);
+}
+.score-count{
+  font-size:var(--text-sm);
+  font-weight:var(--weight-extrabold);
+  margin-left:var(--space-1);
+  transition:color 0.3s ease;
+}
+.score-low{color:#DC2626}
+.score-mid{color:#D97706}
+.score-high{color:#059669}
+
+/* ═══════════════════════════════════════
+   BOARD — Clue areas + play grid
+   ═══════════════════════════════════════ */
+.board-wrapper{
+  display:flex;
+  justify-content:center;
+  flex-shrink:0;
+  padding:var(--space-1) 0 var(--space-2);
+}
+.board{
+  display:grid;
+  grid-template-columns:var(--clue-col-w,48px) repeat(var(--board-size,5),var(--cell-size));
+  grid-template-rows:var(--clue-row-h,48px) repeat(var(--board-size,5),var(--cell-size));
+  gap:1px;
+  padding:1px;
+  background:#FFFFFF;
+  border:3px solid var(--border-thick);
+  border-radius:var(--radius-sm);
+  box-shadow:var(--shadow-lg);
+  touch-action:manipulation;
+  --text-clue:calc(var(--cell-size)*0.34);
+  --text-x:calc(var(--cell-size)*0.5);
+}
+/* Play cells — white, light border, dark when filled */
+.cell{
+  width:var(--cell-size);
+  height:var(--cell-size);
+  background:var(--cell-bg);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  position:relative;
+  transition:background var(--transition-fast);
+  border:0.5px solid var(--border-thin);
+  -webkit-tap-highlight-color:transparent;
+}
+.cell .value{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:var(--text-x);
+  line-height:1;
+  pointer-events:none;
+  font-family:var(--font-family);
+  font-weight:var(--weight-bold);
+}
+.cell .value.mark-x{color:var(--text-muted)}
+.cell .value.mark-square{color:var(--cell-filled)}
+.cell .value.error-x{color:var(--error)}
+.cell.filled{
+  background:var(--cell-filled);
+  border-color:var(--cell-filled);
+}
+/* Wrong marks — subtle red tint (toggleable) */
+.cell.error-mark{
+  background:var(--error-bg);
+}
+.cell.error-mark .value.mark-x{color:var(--error);font-weight:var(--weight-extrabold)}
+/* Selected cell — unmistakable orange ring (ring only, keeps fill/error colors) */
+.cell.selected{
+  box-shadow:inset 0 0 0 3px #D97706;
+}
+/* Hint reveal animation — cell flash so filled-cell hints stay visible */
+.cell.hint-pop{animation:cellPop 400ms ease}
+.cell.hint-pop .value{animation:hintPop 400ms ease}
+@keyframes cellPop{
+  0%{transform:scale(1)}
+  40%{transform:scale(1.08)}
+  100%{transform:scale(1)}
+}
+@keyframes hintPop{
+  0%{transform:scale(0.3);opacity:0}
+  50%{transform:scale(1.15)}
+  100%{transform:scale(1);opacity:1}
+}
+
+/* Tap ripple — stronger, more visible */
+.cell .ripple{
+  position:absolute;
+  border-radius:50%;
+  background:rgba(37,99,235,0.25);
+  transform:scale(0);
+  animation:rippleAnim 400ms ease-out forwards;
+  pointer-events:none;
+}
+@keyframes rippleAnim{
+  to{transform:scale(2.5);opacity:0}
+}
+
+/* Clue cells — subtle background, large numbers */
+.clue-cell{
+  background:var(--clue-bg);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:0.5px solid var(--border-thin);
+  overflow:hidden;
+}
+.clue-cell.row-clue{flex-direction:row}
+.clue-cell.col-clue{flex-direction:column}
+.clue-cell .clue-num{
+  font-size:var(--text-clue);
+  font-weight:var(--weight-bold);
+  color:var(--text);
+  line-height:1.15;
+  font-variant-numeric:tabular-nums;
+  min-width:1em;
+  text-align:center;
+}
+/* Row/col fully solved — dim with strikethrough */
+.clue-cell.solved{opacity:0.4}
+.clue-cell.solved .clue-num{text-decoration:line-through;text-decoration-thickness:2px}
+/* Selected line highlight */
+.clue-cell.line-active{background:var(--clue-active)}
+.clue-cell.corner-cell{
+  background:var(--clue-bg);
+}
+
+/* ═══════════════════════════════════════
+   CONTROLS — Bottom-anchored for thumb reach
+   ═══════════════════════════════════════ */
+.controls{
+  flex-shrink:0;
+  display:flex;
+  flex-direction:column;
+  padding-bottom:max(var(--space-2),env(safe-area-inset-bottom));
+  gap:var(--space-2);
+}
+
+/* ── Action Buttons — Large, 4 across ── */
+.action-row{
+  display:flex;
+  gap:var(--space-2);
+  justify-content:center;
+  padding:var(--space-1) 0;
+}
+.action-btn{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:var(--space-1);
+  padding:var(--space-2) var(--space-2);
+  border-radius:var(--btn-radius);
+  border:2.5px solid var(--border);
+  background:var(--surface);
+  color:var(--text-secondary);
+  font-size:var(--text-sm);
+  font-weight:var(--weight-bold);
+  font-family:var(--font-family);
+  cursor:pointer;
+  transition:all var(--transition-base);
+  box-shadow:var(--shadow-sm);
+  min-height:var(--touch-min);
+  -webkit-tap-highlight-color:transparent;
+  line-height:1.2;
+}
+.action-btn .btn-icon{
+  font-size:var(--text-xl);
+  line-height:1;
+}
+.action-btn:active{
+  transform:scale(0.96);
+  background:var(--primary-light);
+  border-color:var(--primary);
+  color:var(--primary);
+}
+.action-btn:disabled{
+  opacity:0.35;
+  pointer-events:none;
+}
+/* Erase button gets error-tinted styling */
+.action-btn.action-erase:active{
+  background:var(--error-bg);
+  border-color:var(--error);
+  color:var(--error);
+}
+/* Error-display toggle active state */
+.action-btn.error-toggle-on{
+  background:#DBEAFE;
+  border-color:#2563EB;
+  color:#2563EB;
+}
+
+/* ═══════════════════════════════════════
+   MODALS — Large text, big buttons
+   ═══════════════════════════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,0.50);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+  padding:var(--space-6);
+}
+.modal-overlay.show{display:flex}
+.modal{
+  background:var(--surface);
+  border-radius:var(--radius-lg);
+  padding:var(--space-8) var(--space-6);
+  width:100%;
+  max-width:400px;
+  box-shadow:0 24px 64px rgba(0,0,0,0.25);
+  text-align:center;
+  animation:modalIn 250ms ease;
+  border:3px solid var(--border);
+}
+@keyframes modalIn{
+  from{opacity:0;transform:scale(0.92) translateY(10px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+.modal h2{
+  font-size:clamp(20px,6vw,32px);
+  font-weight:var(--weight-extrabold);
+  margin-bottom:var(--space-3);
+  color:var(--text);
+  line-height:1.3;
+  white-space:nowrap;
+}
+.modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:var(--space-3);
+  margin-bottom:var(--space-3);
+}
+.modal-header h2{
+  margin-bottom:0;
+}
+.modal p{
+  font-size:clamp(16px,4vw,20px);
+  color:var(--text-secondary);
+  margin-bottom:var(--space-4);
+  line-height:var(--line-height);
+  font-weight:var(--weight-regular);
+}
+.modal-emoji{font-size:clamp(32px,10vw,48px);display:block}
+
+/* Difficulty Grid — 2x2, very large buttons */
+.diff-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:var(--space-3);
+  margin-bottom:var(--space-6);
+}
+.diff-btn{
+  padding:var(--space-5) var(--space-4);
+  border-radius:var(--radius);
+  border:3px solid var(--border);
+  background:var(--surface);
+  cursor:pointer;
+  transition:all var(--transition-base);
+  text-align:center;
+  min-height:var(--touch-min);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  -webkit-tap-highlight-color:transparent;
+}
+.diff-btn:active{
+  transform:scale(0.97);
+}
+.diff-btn .diff-name{
+  font-size:var(--text-lg);
+  font-weight:var(--weight-bold);
+  color:var(--text);
+  display:block;
+  line-height:1.3;
+}
+.diff-btn .diff-desc{
+  font-size:var(--text-sm);
+  color:var(--text-muted);
+  margin-top:var(--space-1);
+  display:block;
+  font-weight:var(--weight-regular);
+}
+.diff-btn[data-diff="easy"]{
+  border-color:#059669;
+}
+.diff-btn[data-diff="easy"] .diff-name{color:#059669}
+.diff-btn[data-diff="easy"].active{
+  background:#D1FAE5;
+  box-shadow:0 0 0 3px rgba(5,150,105,0.3);
+}
+.diff-btn[data-diff="medium"]{
+  border-color:#2563EB;
+}
+.diff-btn[data-diff="medium"] .diff-name{color:#2563EB}
+.diff-btn[data-diff="medium"].active{
+  background:#DBEAFE;
+  box-shadow:0 0 0 3px rgba(37,99,235,0.3);
+}
+.diff-btn[data-diff="hard"]{
+  border-color:#D97706;
+}
+.diff-btn[data-diff="hard"] .diff-name{color:#D97706}
+.diff-btn[data-diff="hard"].active{
+  background:#FEF3C7;
+  box-shadow:0 0 0 3px rgba(217,119,6,0.3);
+}
+.diff-btn[data-diff="expert"]{
+  border-color:#DC2626;
+}
+.diff-btn[data-diff="expert"] .diff-name{color:#DC2626}
+.diff-btn[data-diff="expert"].active{
+  background:#FEE2E2;
+  box-shadow:0 0 0 3px rgba(220,38,38,0.3);
+}
+
+/* Modal Actions — Large, clear buttons */
+.modal-actions{
+  display:flex;
+  gap:var(--space-3);
+  margin-top:var(--space-4);
+}
+.btn{
+  flex:1;
+  padding:var(--space-4) var(--space-5);
+  border-radius:var(--btn-radius);
+  border:none;
+  font-size:var(--text-lg);
+  font-weight:var(--weight-bold);
+  font-family:var(--font-family);
+  cursor:pointer;
+  transition:all var(--transition-base);
+  min-height:var(--touch-min);
+  line-height:1.3;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn-primary{
+  background:var(--primary);
+  color:#FFFFFF;
+}
+.btn-primary:active{
+  background:var(--primary-hover);
+  transform:scale(0.97);
+}
+.btn-secondary{
+  background:var(--surface-raised);
+  color:var(--text);
+  border:2.5px solid var(--border);
+}
+.btn-secondary:active{
+  background:var(--border-thin);
+  transform:scale(0.97);
+}
+.btn-danger{
+  background:var(--error);
+  color:#FFFFFF;
+}
+.btn-danger:active{
+  background:#B91C1C;
+  transform:scale(0.97);
+}
+
+/* Completion Stats */
+.completion-stats{
+  display:flex;
+  gap:var(--space-3);
+  justify-content:center;
+  margin:var(--space-3) 0 var(--space-4);
+  flex-wrap:nowrap;
+}
+.stat{text-align:center;min-width:0}
+.stat-val{
+  font-size:clamp(16px,5vw,24px);
+  font-weight:var(--weight-extrabold);
+  color:var(--text);
+  display:block;
+  line-height:1.2;
+  white-space:nowrap;
+}
+.stat-label{
+  font-size:clamp(12px,3vw,14px);
+  color:var(--text-muted);
+  display:block;
+  margin-top:var(--space-1);
+  font-weight:var(--weight-semibold);
+  white-space:nowrap;
+}
+
+/* New Record Badge */
+.new-record-badge{
+  background:linear-gradient(135deg,#F59E0B,#D97706);
+  color:#FFFFFF;
+  font-size:var(--text-lg);
+  font-weight:var(--weight-extrabold);
+  padding:var(--space-2) var(--space-4);
+  border-radius:var(--radius);
+  margin:var(--space-3) 0;
+  animation:pulse 1s ease infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.05)}
+}
+
+/* Records Modal */
+.modal-records{
+  max-width:380px;
+}
+.records-list{
+  margin:var(--space-4) 0;
+  text-align:left;
+}
+.record-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:var(--space-3) var(--space-4);
+  border:2px solid var(--border);
+  border-radius:var(--radius);
+  margin-bottom:var(--space-2);
+  background:var(--surface);
+}
+.record-item:last-child{
+  margin-bottom:0;
+}
+.record-diff{
+  font-size:var(--text-lg);
+  font-weight:var(--weight-bold);
+}
+.record-item[data-diff="easy"] .record-diff{color:#059669}
+.record-item[data-diff="medium"] .record-diff{color:#2563EB}
+.record-item[data-diff="hard"] .record-diff{color:#D97706}
+.record-item[data-diff="expert"] .record-diff{color:#DC2626}
+.record-stats{
+  display:flex;
+  gap:var(--space-4);
+  font-size:var(--text-sm);
+  color:var(--text-secondary);
+}
+.record-stat{
+  text-align:right;
+}
+.record-stat-val{
+  font-weight:var(--weight-bold);
+  color:var(--text);
+  display:block;
+}
+.record-stat-label{
+  font-size:var(--text-xs);
+  color:var(--text-muted);
+}
+
+/* Rules Modal */
+.modal-rules{
+  max-width:380px;
+  padding:var(--space-5) var(--space-5);
+}
+.modal-rules .modal-header{
+  margin-bottom:var(--space-2);
+}
+.modal-rules .modal-actions{
+  margin-top:var(--space-3);
+}
+.rules-content{
+  margin:var(--space-2) 0;
+  text-align:left;
+}
+.rule-section{
+  margin-bottom:var(--space-3);
+}
+.rule-section:last-child{
+  margin-bottom:0;
+}
+.rule-section h3{
+  font-size:var(--text-base);
+  font-weight:var(--weight-bold);
+  margin-bottom:var(--space-1);
+}
+.rule-section p{
+  font-size:var(--text-sm);
+  line-height:1.4;
+  color:var(--text-secondary);
+}
+.score-rules{
+  display:flex;
+  flex-direction:column;
+  gap:var(--space-1);
+}
+.score-rule{
+  display:flex;
+  align-items:center;
+  gap:var(--space-2);
+  padding:var(--space-1) var(--space-2);
+  background:var(--surface);
+  border-radius:var(--radius);
+}
+.score-icon{
+  font-size:var(--text-base);
+}
+.score-text{
+  flex:1;
+  font-size:var(--text-sm);
+}
+.score-value{
+  font-weight:var(--weight-bold);
+  font-size:var(--text-base);
+}
+.score-value.positive{color:#059669}
+.score-value.negative{color:#DC2626}
+.score-note{
+  font-size:var(--text-xs);
+  color:var(--text-muted);
+  margin-top:var(--space-1);
+  line-height:1.3;
+}
+
+/* ═══════════════════════════════════════
+   TOAST — Large, persistent, impossible to miss
+   ═══════════════════════════════════════ */
+.toast{
+  position:fixed;
+  top:calc(20px + env(safe-area-inset-top));
+  left:50%;transform:translateX(-50%) translateY(-20px);
+  background:var(--text);
+  color:#FFFFFF;
+  padding:var(--space-4) var(--space-6);
+  border-radius:var(--radius-lg);
+  font-size:var(--text-base);
+  font-weight:var(--weight-bold);
+  font-family:var(--font-family);
+  opacity:0;
+  transition:all 300ms ease;
+  z-index:200;
+  pointer-events:none;
+  white-space:nowrap;
+  box-shadow:var(--shadow-lg);
+  border:2px solid var(--border-thick);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Scrollbar hide */
+::-webkit-scrollbar{display:none}
+
+/* Safe area padding for notch devices */
+@supports(padding:max(0px)){
+  .container{
+    padding-left:max(16px,env(safe-area-inset-left));
+    padding-right:max(16px,env(safe-area-inset-right));
+  }
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — Landscape & small screens
+   ═══════════════════════════════════════ */
+@media(max-height:640px){
+  :root{--cell-size:36px}
+  .board{--text-clue:12px;--text-x:16px}
+  .header{padding:var(--space-2) 0 var(--space-1)}
+  .status-bar{padding:var(--space-1) 0 var(--space-2)}
+  .controls{gap:var(--space-1);padding-bottom:var(--space-1)}
+  .action-btn{padding:var(--space-1);min-height:44px}
+  .action-btn .btn-icon{font-size:var(--text-lg)}
+  .action-btn{font-size:var(--text-xs)}
+  .board-wrapper{padding:var(--space-1) 0 var(--space-1)}
+}
+@media(max-width:360px){
+  :root{--cell-size:36px}
+  .board{--text-clue:11px;--text-x:15px}
+  .action-btn{padding:var(--space-1);font-size:var(--text-xs)}
+  .action-btn .btn-icon{font-size:var(--text-lg)}
+}
+@media(min-width:500px){
+  .header-btn{padding:var(--space-2) var(--space-4)}
+  .status-item{padding:var(--space-3) var(--space-4)}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header — Simplified: just logo + new game -->
+  <header class="header">
+    <h1 class="logo">👨🏻 아빠의 <span class="logo-accent">네모로직</span></h1>
+    <div class="header-actions">
+      <button class="header-btn header-btn-outline" id="btnRecords" aria-label="기록">기록</button>
+      <button class="header-btn header-btn-outline" id="btnReset" aria-label="다시하기">다시하기</button>
+      <button class="header-btn header-btn-outline" id="btnNewGame" aria-label="새 게임">새 게임</button>
+    </div>
+  </header>
+
+  <!-- Status bar — Large, clear info -->
+  <div class="status-bar">
+    <span class="status-item difficulty-badge" id="diffBadge" data-diff="medium">보통</span>
+    <div class="status-item timer-group">
+      <span class="timer" id="timerDisplay">00:00</span>
+    </div>
+    <span class="status-item score-display">점수 <span class="score-count" id="scoreCount">100</span></span>
+    <button class="status-item status-btn" id="btnRules" aria-label="규칙">규칙</button>
+  </div>
+
+  <!-- Board — The star of the show -->
+  <div class="board-wrapper">
+    <div class="board" id="board"></div>
+  </div>
+
+  <!-- Controls — Bottom-anchored for thumb reach -->
+  <div class="controls">
+    <!-- Action buttons -->
+    <div class="action-row">
+      <button class="action-btn action-erase" id="btnErase"><span class="btn-icon">❌</span>지우기</button>
+      <button class="action-btn" id="btnHint"><span class="btn-icon">💡</span>힌트 도움</button>
+      <button class="action-btn" id="btnUndo"><span class="btn-icon">↩</span>되돌리기</button>
+      <button class="action-btn error-toggle-on" id="btnErrors"><span class="btn-icon">🔍</span>오답 표시</button>
+    </div>
+  </div>
+</div>
+
+<!-- Erase Confirmation Modal -->
+<div class="modal-overlay" id="modalErase">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-emoji">🗑️</span>
+      <h2>지우시겠습니까?</h2>
+    </div>
+    <p>선택한 칸의 표시를 지웁니다</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="btnCancelErase">취소</button>
+      <button class="btn btn-danger" id="btnConfirmErase">지우기</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reset Confirmation Modal -->
+<div class="modal-overlay" id="modalReset">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-emoji">🔄</span>
+      <h2>다시 하시겠습니까?</h2>
+    </div>
+    <p>현재 진행 상황이 모두 초기화됩니다</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="btnCancelReset">취소</button>
+      <button class="btn btn-danger" id="btnConfirmReset">다시하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- New Game Modal -->
+<div class="modal-overlay" id="modalNewGame">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-emoji">🧩</span>
+      <h2>새 게임</h2>
+    </div>
+    <p>난이도를 선택하세요</p>
+    <div class="diff-grid">
+      <button class="diff-btn" data-diff="easy"><span class="diff-name">쉬움</span><span class="diff-desc">5×5 칸</span></button>
+      <button class="diff-btn active" data-diff="medium"><span class="diff-name">보통</span><span class="diff-desc">7×7 칸</span></button>
+      <button class="diff-btn" data-diff="hard"><span class="diff-name">어려움</span><span class="diff-desc">9×9 칸</span></button>
+      <button class="diff-btn" data-diff="expert"><span class="diff-name">전문가</span><span class="diff-desc">10×10 칸</span></button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="btnCancelNew">취소</button>
+      <button class="btn btn-primary" id="btnConfirmNew">시작하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- Win Modal -->
+<div class="modal-overlay" id="modalWin">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-emoji">🎉</span>
+      <h2>축하합니다!</h2>
+    </div>
+    <p>퍼즐을 완성했습니다</p>
+    <div id="winNewRecord" class="new-record-badge" style="display:none">🏆 새 기록!</div>
+    <div class="completion-stats">
+      <div class="stat"><span class="stat-val" id="winTime">00:00</span><span class="stat-label">소요 시간</span></div>
+      <div class="stat"><span class="stat-val" id="winDiff">-</span><span class="stat-label">난이도</span></div>
+      <div class="stat"><span class="stat-val" id="winScore">0</span><span class="stat-label">점수</span></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="btnWinNew">새 게임</button>
+    </div>
+  </div>
+</div>
+
+<!-- Records Modal -->
+<div class="modal-overlay" id="modalRecords">
+  <div class="modal modal-records">
+    <div class="modal-header">
+      <span class="modal-emoji">🏆</span>
+      <h2>기록</h2>
+    </div>
+    <div class="records-list" id="recordsList"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="btnCloseRecords">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- Rules Modal -->
+<div class="modal-overlay" id="modalRules">
+  <div class="modal modal-rules">
+    <div class="modal-header">
+      <span class="modal-emoji">📋</span>
+      <h2>게임 규칙</h2>
+    </div>
+    <div class="rules-content">
+      <div class="rule-section">
+        <h3>🎯 기본 규칙</h3>
+        <p>각 줄의 숫자는 그 줄에 검은 칸이 연속으로 몇 칸씩 있는지 나타냅니다.<br>예: 가로줄에 [2,1]이면 2칸, 1칸 순서로 검은 칸이 있습니다.</p>
+      </div>
+      <div class="rule-section">
+        <h3>👆 칸 채우기</h3>
+        <p>칸을 누르면 빈칸 → 채움 → X 표시 → 빈칸 순서로 바뀝니다.<br>칸을 누른 채로 밀면 여러 칸을 한 번에 채울 수 있습니다.</p>
+      </div>
+      <div class="rule-section">
+        <h3>❌ X 표시</h3>
+        <p>채우지 않아야 하는 칸에 X 표시를 하면 헷갈리지 않습니다.<br>검은 칸 자리에 X를 표시하면 빨간색으로 알려줍니다.</p>
+      </div>
+      <div class="rule-section">
+        <h3>🏁 완성 조건</h3>
+        <p>모든 검은 칸을 정확히 채우고 모든 흰 칸에 X를 표시하면 완성입니다.<br>완성된 줄의 숫자는 흐려집니다.</p>
+      </div>
+      <div class="rule-section">
+        <h3>⭐ 점수 시스템</h3>
+        <div class="score-rules">
+          <div class="score-rule">
+            <span class="score-icon">🏁</span>
+            <span class="score-text">시작 점수</span>
+            <span class="score-value positive">100점</span>
+          </div>
+          <div class="score-rule">
+            <span class="score-icon">⏱️</span>
+            <span class="score-text">시간 페널티</span>
+            <span class="score-value negative">1분당 -1점</span>
+          </div>
+          <div class="score-rule">
+            <span class="score-icon">💡</span>
+            <span class="score-text">힌트 사용</span>
+            <span class="score-value negative">-1점</span>
+          </div>
+        </div>
+        <p class="score-note">* 최소 0점까지 감소합니다<br>* 빨리 완성하고 힌트를 적게 사용할수록 높은 점수</p>
+      </div>
+      <div class="rule-section">
+        <h3>💡 힌트</h3>
+        <p>선택한 칸의 정답을 알려줍니다.<br>선택 없이 사용하면 랜덤 칸에 힌트가 갑니다.</p>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="btnCloseRules">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+
+// ═══════════════════════════════════════════
+// CONSTANTS & STATE
+// ═══════════════════════════════════════════
+const STORAGE_KEY = 'nonogram_game_v1';
+const RECORDS_KEY = 'nonogram_records_v1';
+const HISTORY_LIMIT = 200;
+const DIFFICULTY_CONFIG = {
+  easy:   { size: 5,  density: 0.30, label: '쉬움' },
+  medium: { size: 7,  density: 0.35, label: '보통' },
+  hard:   { size: 9,  density: 0.40, label: '어려움' },
+  expert: { size: 10, density: 0.45, label: '전문가' }
+};
+
+let state = {
+  size: 7,
+  solution: [],      // flat 0/1 array — the answer grid (kept private)
+  rowClues: [],      // rowClues[r] = [run lengths]
+  colClues: [],
+  board: [],         // player marks: 0 empty, 1 filled, 2 X
+  cellEls: [],       // flat array of play cell elements
+  difficulty: 'medium',
+  timer: 0,
+  score: 100,
+  selectedCell: null,
+  history: [],
+  future: [],
+  errorDisplay: true,
+  gameOver: false,
+  createdAt: Date.now(),
+  lastSavedAt: Date.now()
+};
+
+let timerInterval = null;
+let saveDebounce = null;
+let dragState = null;
+let suppressClick = false;
+
+// ═══════════════════════════════════════════
+// RECORDS (localStorage)
+// ═══════════════════════════════════════════
+function loadRecords() {
+  try {
+    const raw = localStorage.getItem(RECORDS_KEY);
+    if (!raw) return getDefaultRecords();
+    const data = JSON.parse(raw);
+    const defaults = getDefaultRecords();
+    for (const diff of Object.keys(defaults)) {
+      if (!data[diff]) data[diff] = defaults[diff];
+    }
+    return data;
+  } catch (e) {
+    return getDefaultRecords();
+  }
+}
+
+function getDefaultRecords() {
+  return {
+    easy: { bestTime: null, bestScore: 0, gamesPlayed: 0, gamesWon: 0 },
+    medium: { bestTime: null, bestScore: 0, gamesPlayed: 0, gamesWon: 0 },
+    hard: { bestTime: null, bestScore: 0, gamesPlayed: 0, gamesWon: 0 },
+    expert: { bestTime: null, bestScore: 0, gamesPlayed: 0, gamesWon: 0 }
+  };
+}
+
+function saveRecords(records) {
+  try {
+    localStorage.setItem(RECORDS_KEY, JSON.stringify(records));
+  } catch (e) {
+    console.warn('Failed to save records:', e);
+  }
+}
+
+function recordWin(difficulty, time, score) {
+  const records = loadRecords();
+  records[difficulty].gamesWon++;
+
+  let isNewRecord = false;
+
+  if (records[difficulty].bestTime === null || time < records[difficulty].bestTime) {
+    records[difficulty].bestTime = time;
+    isNewRecord = true;
+  }
+
+  if (score > (records[difficulty].bestScore || 0)) {
+    records[difficulty].bestScore = score;
+    isNewRecord = true;
+  }
+
+  saveRecords(records);
+  return isNewRecord;
+}
+
+function recordGamePlayed(difficulty) {
+  const records = loadRecords();
+  records[difficulty].gamesPlayed++;
+  saveRecords(records);
+}
+
+// ═══════════════════════════════════════════
+// NONOGRAM SOLVER — line propagation + DFS
+// ═══════════════════════════════════════════
+function countSolutions(rowClues, colClues, n, limit) {
+  const N = n * n;
+  const allLineMask = (1 << n) - 1;
+  const lineCache = new Map();
+  const placementsCache = new Map();
+
+  function getPlacements(clue) {
+    const key = clue.join(',');
+    const hit = placementsCache.get(key);
+    if (hit) return hit;
+    const results = [];
+    const k = clue.length;
+    (function rec(idx, start, mask) {
+      if (idx === k) {
+        results.push(mask);
+        return;
+      }
+      const run = clue[idx];
+      let rem = 0;
+      for (let j = idx + 1; j < k; j++) rem += clue[j] + 1;
+      const maxStart = n - run - rem;
+      for (let s = start; s <= maxStart; s++) {
+        let m = mask;
+        for (let q = 0; q < run; q++) m |= (1 << (s + q));
+        rec(idx + 1, s + run + 1, m);
+      }
+    })(0, 0, 0);
+    placementsCache.set(key, results);
+    return results;
+  }
+
+  // Determine which cells MUST be filled/empty given a line's known state.
+  // Returns { filled, empty } bitmasks, or null if the line is impossible.
+  function lineDeduce(clue, fm, em) {
+    const key = clue.length + ':' + clue.join(',') + ':' + fm + ':' + em;
+    const hit = lineCache.get(key);
+    if (hit !== undefined) return hit;
+    let result = null;
+    if (clue.length === 0) {
+      if (fm === 0) result = { filled: 0, empty: allLineMask };
+    } else {
+      const pls = getPlacements(clue);
+      let f = allLineMask;
+      let e = allLineMask;
+      let any = false;
+      for (let i = 0; i < pls.length; i++) {
+        const pm = pls[i];
+        if (pm & em) continue;              // run overlaps a known-empty cell
+        const pe = allLineMask ^ pm;        // non-run cells are empty here
+        if (pe & fm) continue;              // known-filled cell outside the run
+        any = true;
+        f &= pm;
+        e &= pe;
+      }
+      if (any) result = { filled: f, empty: e };
+    }
+    lineCache.set(key, result);
+    return result;
+  }
+
+  let solutions = 0;
+
+  function solve(filled, empty, cellsLeft) {
+    if (solutions >= limit) return;
+
+    let changed = true;
+    let guard = 0;
+    while (changed && guard < 100) {
+      changed = false;
+      guard++;
+      // Rows
+      for (let r = 0; r < n; r++) {
+        let fm = 0, em = 0;
+        for (let c = 0; c < n; c++) {
+          const i = r * n + c;
+          if (filled[i]) fm |= (1 << c);
+          else if (empty[i]) em |= (1 << c);
+        }
+        const res = lineDeduce(rowClues[r], fm, em);
+        if (!res) return;
+        for (let c = 0; c < n; c++) {
+          const bit = 1 << c;
+          const i = r * n + c;
+          if (!filled[i] && !empty[i]) {
+            if (res.filled & bit) { filled[i] = 1; cellsLeft--; changed = true; }
+            else if (res.empty & bit) { empty[i] = 1; cellsLeft--; changed = true; }
+          }
+        }
+      }
+      // Columns
+      for (let c = 0; c < n; c++) {
+        let fm = 0, em = 0;
+        for (let r = 0; r < n; r++) {
+          const i = r * n + c;
+          if (filled[i]) fm |= (1 << r);
+          else if (empty[i]) em |= (1 << r);
+        }
+        const res = lineDeduce(colClues[c], fm, em);
+        if (!res) return;
+        for (let r = 0; r < n; r++) {
+          const bit = 1 << r;
+          const i = r * n + c;
+          if (!filled[i] && !empty[i]) {
+            if (res.filled & bit) { filled[i] = 1; cellsLeft--; changed = true; }
+            else if (res.empty & bit) { empty[i] = 1; cellsLeft--; changed = true; }
+          }
+        }
+      }
+    }
+
+    if (cellsLeft === 0) {
+      solutions++;
+      return;
+    }
+
+    // Branch on the first unknown cell
+    for (let i = 0; i < N; i++) {
+      if (!filled[i] && !empty[i]) {
+        const f2 = filled.slice();
+        f2[i] = 1;
+        solve(f2, empty.slice(), cellsLeft - 1);
+        if (solutions >= limit) return;
+        const e2 = empty.slice();
+        e2[i] = 1;
+        solve(filled.slice(), e2, cellsLeft - 1);
+        return;
+      }
+    }
+  }
+
+  solve(new Array(N).fill(0), new Array(N).fill(0), N);
+  return solutions;
+}
+
+// ═══════════════════════════════════════════
+// NONOGRAM GENERATOR — random solution grid
+// ═══════════════════════════════════════════
+function randInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function generateSolution(size, density) {
+  const target = Math.round(size * size * density);
+  const grid = new Array(size * size).fill(0);
+  let count = 0;
+
+  // Organic random walks — creates contiguous runs instead of uniform noise
+  let guard = 0;
+  const walkCap = target * 20 + 300;
+  while (count < target && guard < walkCap) {
+    guard++;
+    let r = randInt(size);
+    let c = randInt(size);
+    const len = 2 + randInt(Math.min(5, size - 1));
+    for (let i = 0; i < len && count < target; i++) {
+      const idx = r * size + c;
+      if (!grid[idx]) {
+        grid[idx] = 1;
+        count++;
+      }
+      const d = randInt(4);
+      const dr = [0, 1, 0, -1][d];
+      const dc = [1, 0, -1, 0][d];
+      r += dr;
+      c += dc;
+      if (r < 0 || r >= size || c < 0 || c >= size) {
+        r = randInt(size);
+        c = randInt(size);
+      }
+    }
+  }
+
+  // Top up remaining cells randomly
+  guard = 0;
+  while (count < target && guard < target * 10) {
+    guard++;
+    const i = randInt(size * size);
+    if (!grid[i]) {
+      grid[i] = 1;
+      count++;
+    }
+  }
+
+  // Ensure no row/col is completely empty or completely full
+  for (let pass = 0; pass < 3; pass++) {
+    for (let r = 0; r < size; r++) {
+      let filled = 0;
+      for (let c = 0; c < size; c++) filled += grid[r * size + c];
+      if (filled === 0) {
+        grid[r * size + randInt(size)] = 1;
+        count++;
+      } else if (filled === size) {
+        grid[r * size + randInt(size)] = 0;
+        count--;
+      }
+    }
+    for (let c = 0; c < size; c++) {
+      let filled = 0;
+      for (let r = 0; r < size; r++) filled += grid[r * size + c];
+      if (filled === 0) {
+        grid[randInt(size) * size + c] = 1;
+        count++;
+      } else if (filled === size) {
+        grid[randInt(size) * size + c] = 0;
+        count--;
+      }
+    }
+  }
+
+  // Trim overshoot back toward the target density. Only cells whose row and
+  // column both keep at least one filled cell are removable, so the
+  // no-empty/no-full line invariant survives the trim.
+  guard = 0;
+  while (count > target && guard < count * 8) {
+    guard++;
+    const i = randInt(size * size);
+    if (!grid[i]) continue;
+    const r = Math.floor(i / size);
+    const c = i % size;
+    let rCount = 0;
+    let cCount = 0;
+    for (let x = 0; x < size; x++) {
+      rCount += grid[r * size + x];
+      cCount += grid[x * size + c];
+    }
+    if (rCount <= 1 || cCount <= 1) continue;
+    grid[i] = 0;
+    count--;
+  }
+
+  return grid;
+}
+
+function computeClues(grid, size) {
+  const rows = [];
+  const cols = [];
+  for (let r = 0; r < size; r++) {
+    const runs = [];
+    let len = 0;
+    for (let c = 0; c < size; c++) {
+      if (grid[r * size + c]) {
+        len++;
+      } else {
+        if (len) {
+          runs.push(len);
+          len = 0;
+        }
+      }
+    }
+    if (len) runs.push(len);
+    rows.push(runs);
+  }
+  for (let c = 0; c < size; c++) {
+    const runs = [];
+    let len = 0;
+    for (let r = 0; r < size; r++) {
+      if (grid[r * size + c]) {
+        len++;
+      } else {
+        if (len) {
+          runs.push(len);
+          len = 0;
+        }
+      }
+    }
+    if (len) runs.push(len);
+    cols.push(runs);
+  }
+  return { rows: rows, cols: cols };
+}
+
+function generatePuzzle(size, density) {
+  let last = null;
+  // Main attempts at the requested density
+  for (let attempt = 0; attempt < 30; attempt++) {
+    const grid = generateSolution(size, density);
+    const clues = computeClues(grid, size);
+    last = { grid: grid, clues: clues };
+    if (countSolutions(clues.rows, clues.cols, size, 2) === 1) {
+      return last;
+    }
+  }
+  // Fallback: accept the first unique puzzle even if density drifts a little
+  for (let attempt = 0; attempt < 60; attempt++) {
+    const drift = Math.min(0.60, Math.max(0.25, density + (Math.random() - 0.5) * 0.12));
+    const grid = generateSolution(size, drift);
+    const clues = computeClues(grid, size);
+    last = { grid: grid, clues: clues };
+    if (countSolutions(clues.rows, clues.cols, size, 2) === 1) {
+      return last;
+    }
+  }
+  return last;
+}
+
+// ═══════════════════════════════════════════
+// DOM REFERENCES
+// ═══════════════════════════════════════════
+const boardEl = document.getElementById('board');
+const timerEl = document.getElementById('timerDisplay');
+const diffBadge = document.getElementById('diffBadge');
+const scoreEl = document.getElementById('scoreCount');
+const toastEl = document.getElementById('toast');
+
+const modalNew = document.getElementById('modalNewGame');
+const modalWin = document.getElementById('modalWin');
+const modalErase = document.getElementById('modalErase');
+const modalReset = document.getElementById('modalReset');
+const modalRecords = document.getElementById('modalRecords');
+const modalRules = document.getElementById('modalRules');
+
+const btnUndo = document.getElementById('btnUndo');
+const btnErase = document.getElementById('btnErase');
+const btnHint = document.getElementById('btnHint');
+const btnErrors = document.getElementById('btnErrors');
+const btnNewGame = document.getElementById('btnNewGame');
+const btnRecords = document.getElementById('btnRecords');
+const btnRules = document.getElementById('btnRules');
+const btnWinNew = document.getElementById('btnWinNew');
+const btnCancelNew = document.getElementById('btnCancelNew');
+const btnConfirmNew = document.getElementById('btnConfirmNew');
+const btnCancelErase = document.getElementById('btnCancelErase');
+const btnConfirmErase = document.getElementById('btnConfirmErase');
+const btnReset = document.getElementById('btnReset');
+const btnCancelReset = document.getElementById('btnCancelReset');
+const btnConfirmReset = document.getElementById('btnConfirmReset');
+const btnCloseRecords = document.getElementById('btnCloseRecords');
+const recordsList = document.getElementById('recordsList');
+const btnCloseRules = document.getElementById('btnCloseRules');
+
+// ═══════════════════════════════════════════
+// INITIALIZATION
+// ═══════════════════════════════════════════
+function init() {
+  buildBoard();
+  bindEvents();
+  loadGame();
+  startTimer();
+}
+
+function buildBoard() {
+  boardEl.innerHTML = '';
+  boardEl.style.setProperty('--board-size', String(state.size));
+  state.cellEls = [];
+
+  // Corner cell
+  const corner = document.createElement('div');
+  corner.className = 'clue-cell corner-cell';
+  boardEl.appendChild(corner);
+
+  // Column clues (top row)
+  for (let c = 0; c < state.size; c++) {
+    const el = document.createElement('div');
+    el.className = 'clue-cell col-clue';
+    el.dataset.clueCol = String(c);
+    boardEl.appendChild(el);
+  }
+
+  // Row clues + play cells
+  for (let r = 0; r < state.size; r++) {
+    const clueEl = document.createElement('div');
+    clueEl.className = 'clue-cell row-clue';
+    clueEl.dataset.clueRow = String(r);
+    boardEl.appendChild(clueEl);
+
+    for (let c = 0; c < state.size; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.dataset.r = String(r);
+      cell.dataset.c = String(c);
+      const val = document.createElement('span');
+      val.className = 'value';
+      cell.appendChild(val);
+      boardEl.appendChild(cell);
+      state.cellEls.push(cell);
+    }
+  }
+
+  updateBoardLayout();
+}
+
+function updateBoardLayout() {
+  const size = state.size;
+  let maxRowClues = 0;
+  let maxColClues = 0;
+  for (let i = 0; i < size; i++) {
+    if (state.rowClues[i] && state.rowClues[i].length > maxRowClues) maxRowClues = state.rowClues[i].length;
+    if (state.colClues[i] && state.colClues[i].length > maxColClues) maxColClues = state.colClues[i].length;
+  }
+  const maxRowClueNum = maxRowClues || 1;
+  const maxColClueNum = maxColClues || 1;
+
+  const cellCaps = { 5: 58, 7: 50, 9: 44, 10: 40 };
+  const cellCap = cellCaps[size] || 44;
+  const maxW = Math.min(window.innerWidth - 8, 428);
+  const clueUnit = 12;
+
+  // Left column holds row clues; top row holds column clues
+  const clueColW = Math.min(maxRowClueNum * clueUnit + 10, 100);
+  const clueRowH = Math.min(maxColClueNum * clueUnit + 10, 100);
+
+  let cell = Math.floor((maxW - clueColW) / size);
+  cell = Math.max(24, Math.min(cell, cellCap));
+
+  // Short screens (landscape) — keep the board inside the viewport height
+  if (window.innerHeight <= 640) {
+    const hFit = Math.floor((window.innerHeight - 190) / size);
+    cell = Math.max(22, Math.min(cell, hFit));
+  }
+
+  boardEl.style.setProperty('--cell-size', cell + 'px');
+  boardEl.style.setProperty('--clue-col-w', clueColW + 'px');
+  boardEl.style.setProperty('--clue-row-h', clueRowH + 'px');
+}
+
+function bindEvents() {
+  // Pointer interaction with drag-to-fill
+  if (window.PointerEvent) {
+    boardEl.addEventListener('pointerdown', handlePointerDown);
+    boardEl.addEventListener('pointermove', handlePointerMove);
+    boardEl.addEventListener('pointerup', handlePointerEnd);
+    boardEl.addEventListener('pointercancel', handlePointerEnd);
+  } else {
+    // Fallback: touch events
+    boardEl.addEventListener('touchstart', handleTouchStart, { passive: false });
+    boardEl.addEventListener('touchmove', handleTouchMove, { passive: false });
+    boardEl.addEventListener('touchend', handleTouchEnd, { passive: false });
+  }
+
+  // Fallback selection (mouse without pointer events / synthetic clicks)
+  boardEl.addEventListener('click', function(e) {
+    if (suppressClick) {
+      suppressClick = false;
+      return;
+    }
+    const cell = e.target.closest('.cell');
+    if (!cell) return;
+    selectCell(parseInt(cell.dataset.r), parseInt(cell.dataset.c));
+  });
+
+  // Click outside board to deselect cell & close modals
+  document.addEventListener('click', function(e) {
+    if (!boardEl.contains(e.target) &&
+        !e.target.closest('.action-btn') && !e.target.closest('.modal') &&
+        !e.target.closest('.header-btn') && !e.target.closest('.status-btn')) {
+      if (state.selectedCell) {
+        state.selectedCell = null;
+        render();
+      }
+      modalRecords.classList.remove('show');
+      modalRules.classList.remove('show');
+      modalNew.classList.remove('show');
+      modalReset.classList.remove('show');
+    }
+  });
+
+  // Action buttons
+  btnUndo.addEventListener('click', undo);
+  btnErase.addEventListener('click', eraseCell);
+  btnHint.addEventListener('click', giveHint);
+  btnErrors.addEventListener('click', toggleErrorDisplay);
+  btnNewGame.addEventListener('click', function() {
+    modalNew.classList.add('show');
+  });
+  btnRecords.addEventListener('click', showRecords);
+  btnRules.addEventListener('click', function() {
+    modalRules.classList.add('show');
+  });
+  btnWinNew.addEventListener('click', function() {
+    modalWin.classList.remove('show');
+    modalNew.classList.add('show');
+  });
+  btnCancelNew.addEventListener('click', function() {
+    modalNew.classList.remove('show');
+  });
+  btnConfirmNew.addEventListener('click', confirmNewGame);
+  btnCancelErase.addEventListener('click', function() {
+    modalErase.classList.remove('show');
+  });
+  btnConfirmErase.addEventListener('click', confirmErase);
+  btnReset.addEventListener('click', function() {
+    modalReset.classList.add('show');
+  });
+  btnCancelReset.addEventListener('click', function() {
+    modalReset.classList.remove('show');
+  });
+  btnConfirmReset.addEventListener('click', confirmReset);
+  btnCloseRecords.addEventListener('click', function() {
+    modalRecords.classList.remove('show');
+  });
+  btnCloseRules.addEventListener('click', function() {
+    modalRules.classList.remove('show');
+  });
+
+  // Difficulty selection
+  document.querySelectorAll('.diff-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.diff-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      this.classList.add('active');
+    });
+  });
+
+  // Keyboard support — arrows, fill, X mark, undo/redo
+  document.addEventListener('keydown', function(e) {
+    if (state.gameOver) return;
+    const key = e.key;
+    if ((e.ctrlKey || e.metaKey) && key === 'z') {
+      e.preventDefault();
+      undo();
+    } else if ((e.ctrlKey || e.metaKey) && key === 'y') {
+      e.preventDefault();
+      redo();
+    } else if (key === 'Backspace' || key === 'Delete') {
+      eraseCell();
+    } else if (state.selectedCell) {
+      const r = state.selectedCell[0];
+      const c = state.selectedCell[1];
+      if (key === 'ArrowUp') selectCell(Math.max(0, r - 1), c);
+      else if (key === 'ArrowDown') selectCell(Math.min(state.size - 1, r + 1), c);
+      else if (key === 'ArrowLeft') selectCell(r, Math.max(0, c - 1));
+      else if (key === 'ArrowRight') selectCell(r, Math.min(state.size - 1, c + 1));
+      else if (key === 'f' || key === 'F') markSelected(1);
+      else if (key === 'x' || key === 'X') markSelected(2);
+    }
+  });
+
+  // Tab visibility — pause timer, save state
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden && !state.gameOver) {
+      saveGame();
+      stopTimer();
+    } else if (!document.hidden) {
+      startTimer();
+    }
+  });
+
+  window.addEventListener('beforeunload', function() {
+    if (!state.gameOver) saveGame();
+  });
+}
+
+// ═══════════════════════════════════════════
+// GAME LOGIC
+// ═══════════════════════════════════════════
+function newGame(difficulty) {
+  const cfg = DIFFICULTY_CONFIG[difficulty];
+  const puzzle = generatePuzzle(cfg.size, cfg.density);
+
+  state.size = cfg.size;
+  state.solution = puzzle.grid;
+  state.rowClues = puzzle.clues.rows;
+  state.colClues = puzzle.clues.cols;
+  state.board = new Array(cfg.size * cfg.size).fill(0);
+  state.difficulty = difficulty;
+  state.timer = 0;
+  state.score = 100;
+  state.selectedCell = null;
+  state.history = [];
+  state.future = [];
+  state.gameOver = false;
+  state.createdAt = Date.now();
+
+  recordGamePlayed(difficulty);
+
+  diffBadge.textContent = cfg.label;
+  diffBadge.dataset.diff = difficulty;
+  buildBoard();
+  updateScoreDisplay();
+  render();
+  saveGame();
+  startTimer();
+  showToast('🎮 새 게임 시작!');
+}
+
+function selectCell(r, c) {
+  if (state.gameOver) return;
+  state.selectedCell = [r, c];
+  render();
+  saveGameDebounced();
+}
+
+function markSelected(mark) {
+  if (!state.selectedCell || state.gameOver) return;
+  const [r, c] = state.selectedCell;
+  const i = r * state.size + c;
+  if (state.board[i] === mark) return;
+  const prev = state.board[i];
+  state.board[i] = mark;
+  pushHistory([{ i: i, prev: prev, next: mark }]);
+  render();
+  checkWin();
+  saveGame();
+}
+
+function eraseCell() {
+  if (!state.selectedCell || state.gameOver) return;
+  const [r, c] = state.selectedCell;
+  if (state.board[r * state.size + c] === 0) return;
+  modalErase.classList.add('show');
+}
+
+function confirmErase() {
+  modalErase.classList.remove('show');
+  if (!state.selectedCell || state.gameOver) return;
+  const [r, c] = state.selectedCell;
+  const i = r * state.size + c;
+  if (state.board[i] === 0) return;
+  const prev = state.board[i];
+  state.board[i] = 0;
+  pushHistory([{ i: i, prev: prev, next: 0 }]);
+  render();
+  saveGame();
+  showToast('🗑️ 지웠습니다');
+}
+
+function confirmReset() {
+  modalReset.classList.remove('show');
+  state.board = new Array(state.size * state.size).fill(0);
+  state.timer = 0;
+  state.score = 100;
+  state.selectedCell = null;
+  state.history = [];
+  state.future = [];
+  state.gameOver = false;
+  stopTimer();
+  startTimer();
+  render();
+  updateScoreDisplay();
+  saveGame();
+  showToast('🔄 게임을 다시 시작합니다');
+}
+
+function toggleErrorDisplay() {
+  state.errorDisplay = !state.errorDisplay;
+  btnErrors.classList.toggle('error-toggle-on', state.errorDisplay);
+  render();
+  saveGame();
+  showToast(state.errorDisplay ? '🔍 오답 표시 켜짐' : '🔍 오답 표시 꺼짐');
+}
+
+function giveHint() {
+  if (state.gameOver) return;
+
+  let hi = -1;
+  if (state.selectedCell) {
+    const [sr, sc] = state.selectedCell;
+    const i = sr * state.size + sc;
+    if (state.board[i] !== state.solution[i]) hi = i;
+  }
+
+  if (hi < 0) {
+    const candidates = [];
+    for (let i = 0; i < state.board.length; i++) {
+      if (state.board[i] !== state.solution[i]) candidates.push(i);
+    }
+    if (candidates.length === 0) {
+      showToast('❌ 힌트를 사용할 칸이 없습니다');
+      return;
+    }
+    hi = candidates[Math.floor(Math.random() * candidates.length)];
+  }
+
+  const prev = state.board[hi];
+  const next = state.solution[hi] ? 1 : 2;
+  state.board[hi] = next;
+  state.score = Math.max(0, state.score - 1);
+  updateScoreDisplay();
+
+  pushHistory([{ i: hi, prev: prev, next: next }]);
+
+  const hr = Math.floor(hi / state.size);
+  const hc = hi % state.size;
+  state.selectedCell = [hr, hc];
+  render();
+
+  const cell = state.cellEls[hi];
+  if (cell) {
+    cell.classList.add('hint-pop');
+    setTimeout(function() {
+      if (cell) cell.classList.remove('hint-pop');
+    }, 500);
+  }
+
+  showToast('💡 힌트 사용!');
+  checkWin();
+  saveGame();
+}
+
+function pushHistory(diffs) {
+  state.history.push({ cells: diffs });
+  if (state.history.length > HISTORY_LIMIT) {
+    state.history.shift();
+  }
+  state.future = [];
+  updateUndoButtons();
+}
+
+function undo() {
+  if (state.history.length === 0 || state.gameOver) return;
+  const action = state.history.pop();
+  state.future.push(action);
+  for (let k = action.cells.length - 1; k >= 0; k--) {
+    const d = action.cells[k];
+    state.board[d.i] = d.prev;
+  }
+  render();
+  saveGame();
+  updateUndoButtons();
+}
+
+function redo() {
+  if (state.future.length === 0 || state.gameOver) return;
+  const action = state.future.pop();
+  state.history.push(action);
+  for (let k = 0; k < action.cells.length; k++) {
+    const d = action.cells[k];
+    state.board[d.i] = d.next;
+  }
+  render();
+  saveGame();
+  updateUndoButtons();
+}
+
+function updateUndoButtons() {
+  btnUndo.disabled = state.history.length === 0;
+}
+
+function checkWin() {
+  for (let i = 0; i < state.board.length; i++) {
+    const mark = state.board[i];
+    if (mark === 0) return;
+    if (mark === 1 && !state.solution[i]) return;
+    if (mark === 2 && state.solution[i]) return;
+  }
+  // WIN!
+  state.gameOver = true;
+  stopTimer();
+
+  const isNewRecord = recordWin(state.difficulty, state.timer, state.score);
+
+  saveGame();
+
+  setTimeout(function() {
+    document.getElementById('winTime').textContent = formatTime(state.timer);
+    document.getElementById('winDiff').textContent = DIFFICULTY_CONFIG[state.difficulty].label;
+    updateScoreDisplay();
+    document.getElementById('winScore').textContent = state.score;
+
+    const newRecordEl = document.getElementById('winNewRecord');
+    if (newRecordEl) {
+      newRecordEl.style.display = isNewRecord ? 'block' : 'none';
+    }
+
+    modalWin.classList.add('show');
+  }, 400);
+}
+
+// ── Drag interaction ──────────────────────
+function handlePointerDown(e) {
+  if (state.gameOver || dragState) return;
+  const cell = e.target.closest('.cell');
+  if (!cell) return;
+  const r = parseInt(cell.dataset.r);
+  const c = parseInt(cell.dataset.c);
+  const i = r * state.size + c;
+
+  addRipple(cell, e);
+
+  // Cycle: empty → filled → X → empty
+  const prev = state.board[i];
+  const next = (prev + 1) % 3;
+  state.board[i] = next;
+
+  dragState = { pointerId: e.pointerId, diffs: [{ i: i, prev: prev, next: next }] };
+  selectCell(r, c);
+
+  try {
+    boardEl.setPointerCapture(e.pointerId);
+  } catch (err) {}
+}
+
+function handlePointerMove(e) {
+  if (!dragState || e.pointerId !== dragState.pointerId) return;
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  const cell = el && el.closest('.cell');
+  if (!cell) return;
+  const r = parseInt(cell.dataset.r);
+  const c = parseInt(cell.dataset.c);
+  const i = r * state.size + c;
+  const target = dragState.diffs[0].next;
+  if (state.board[i] === target) return; // no-op on already-matching cells
+  const prev = state.board[i];
+  state.board[i] = target;
+  dragState.diffs.push({ i: i, prev: prev, next: target });
+  render();
+}
+
+function handlePointerEnd(e) {
+  if (!dragState) return;
+  if (e.pointerId !== dragState.pointerId) return;
+  finishDrag();
+}
+
+function finishDrag() {
+  suppressClick = true;
+  const diffs = dragState.diffs;
+  dragState = null;
+  if (diffs.length > 0) {
+    pushHistory(diffs);
+    checkWin();
+    saveGame();
+  }
+  render();
+  updateUndoButtons();
+}
+
+function handleTouchStart(e) {
+  if (state.gameOver || dragState) return;
+  const touch = e.changedTouches[0];
+  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+  const cell = el && el.closest('.cell');
+  if (!cell) return;
+  e.preventDefault();
+  const r = parseInt(cell.dataset.r);
+  const c = parseInt(cell.dataset.c);
+  const i = r * state.size + c;
+
+  addRipple(cell, touch);
+
+  const prev = state.board[i];
+  const next = (prev + 1) % 3;
+  state.board[i] = next;
+
+  dragState = { pointerId: touch.identifier, diffs: [{ i: i, prev: prev, next: next }] };
+  selectCell(r, c);
+}
+
+function handleTouchMove(e) {
+  if (!dragState) return;
+  const touch = e.changedTouches[0];
+  if (touch.identifier !== dragState.pointerId) return;
+  e.preventDefault();
+  const el = document.elementFromPoint(touch.clientX, touch.clientY);
+  const cell = el && el.closest('.cell');
+  if (!cell) return;
+  const r = parseInt(cell.dataset.r);
+  const c = parseInt(cell.dataset.c);
+  const i = r * state.size + c;
+  const target = dragState.diffs[0].next;
+  if (state.board[i] === target) return;
+  const prev = state.board[i];
+  state.board[i] = target;
+  dragState.diffs.push({ i: i, prev: prev, next: target });
+  render();
+}
+
+function handleTouchEnd(e) {
+  if (!dragState) return;
+  for (let k = 0; k < e.changedTouches.length; k++) {
+    if (e.changedTouches[k].identifier === dragState.pointerId) {
+      finishDrag();
+      return;
+    }
+  }
+}
+
+// ═══════════════════════════════════════════
+// TIMER
+// ═══════════════════════════════════════════
+function startTimer() {
+  stopTimer();
+  if (state.gameOver) return;
+  timerInterval = setInterval(function() {
+    if (!state.gameOver) {
+      state.timer++;
+      timerEl.textContent = formatTime(state.timer);
+      if (state.timer % 60 === 0 && state.score > 0) {
+        state.score = Math.max(0, state.score - 1);
+        updateScoreDisplay();
+        showToast('⏱️ 시간 페널티 -1점');
+      }
+      if (state.timer % 5 === 0) {
+        saveGameDebounced();
+      }
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+function formatTime(secs) {
+  const m = Math.floor(secs / 60);
+  const s = secs % 60;
+  return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
+
+// ═══════════════════════════════════════════
+// RENDERING
+// ═══════════════════════════════════════════
+function render() {
+  const size = state.size;
+  const selR = state.selectedCell ? state.selectedCell[0] : -1;
+  const selC = state.selectedCell ? state.selectedCell[1] : -1;
+
+  // Row/col completion
+  const rowDone = [];
+  const colDone = [];
+  for (let r = 0; r < size; r++) {
+    let ok = true;
+    for (let c = 0; c < size; c++) {
+      const i = r * size + c;
+      const mark = state.board[i];
+      if (mark === 0 || (mark === 1) !== !!state.solution[i]) {
+        ok = false;
+        break;
+      }
+    }
+    rowDone.push(ok);
+  }
+  for (let c = 0; c < size; c++) {
+    let ok = true;
+    for (let r = 0; r < size; r++) {
+      const i = r * size + c;
+      const mark = state.board[i];
+      if (mark === 0 || (mark === 1) !== !!state.solution[i]) {
+        ok = false;
+        break;
+      }
+    }
+    colDone.push(ok);
+  }
+
+  // Play cells
+  for (let i = 0; i < state.cellEls.length; i++) {
+    const cell = state.cellEls[i];
+    const r = Math.floor(i / size);
+    const c = i % size;
+    const mark = state.board[i];
+    const wrong = mark !== 0 && (mark === 1) !== !!state.solution[i];
+    const value = cell.querySelector('.value');
+
+    cell.className = 'cell';
+
+    if (mark === 1) {
+      cell.classList.add('filled');
+      value.textContent = (wrong && state.errorDisplay) ? '■' : '';
+      value.className = 'value';
+      if (wrong && state.errorDisplay) {
+        cell.classList.add('error-mark');
+        value.classList.add('mark-square');
+      }
+    } else if (mark === 2) {
+      cell.classList.add('marked-x');
+      value.textContent = '✕';
+      value.className = 'value mark-x';
+      if (wrong && state.errorDisplay) {
+        cell.classList.add('error-mark');
+        value.classList.add('error-x');
+      }
+    } else {
+      value.textContent = '';
+      value.className = 'value';
+    }
+
+    if (r === selR && c === selC) {
+      cell.classList.add('selected');
+    }
+  }
+
+  // Clue cells
+  boardEl.querySelectorAll('.clue-cell').forEach(function(el) {
+    const rowIdx = el.dataset.clueRow;
+    const colIdx = el.dataset.clueCol;
+
+    el.classList.remove('solved', 'line-active');
+
+    let nums;
+    if (rowIdx !== undefined) {
+      nums = state.rowClues[parseInt(rowIdx)];
+      el.classList.toggle('solved', rowDone[parseInt(rowIdx)]);
+      if (parseInt(rowIdx) === selR) el.classList.add('line-active');
+    } else if (colIdx !== undefined) {
+      nums = state.colClues[parseInt(colIdx)];
+      el.classList.toggle('solved', colDone[parseInt(colIdx)]);
+      if (parseInt(colIdx) === selC) el.classList.add('line-active');
+    }
+
+    if (nums) {
+      el.textContent = '';
+      for (let k = 0; k < nums.length; k++) {
+        const span = document.createElement('span');
+        span.className = 'clue-num';
+        span.textContent = String(nums[k]);
+        el.appendChild(span);
+      }
+    }
+  });
+
+  updateScoreDisplay();
+  timerEl.textContent = formatTime(state.timer);
+  updateUndoButtons();
+}
+
+function updateScoreDisplay() {
+  scoreEl.textContent = state.score;
+  scoreEl.className = 'score-count';
+  if (state.score <= 3) scoreEl.classList.add('score-low');
+  else if (state.score <= 6) scoreEl.classList.add('score-mid');
+  else scoreEl.classList.add('score-high');
+}
+
+function addRipple(cell, e) {
+  const existing = cell.querySelector('.ripple');
+  if (existing) existing.remove();
+  const ripple = document.createElement('div');
+  ripple.className = 'ripple';
+  const rect = cell.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  ripple.style.width = ripple.style.height = size + 'px';
+
+  let x, y;
+  if (e.changedTouches) {
+    x = e.changedTouches[0].clientX - rect.left;
+    y = e.changedTouches[0].clientY - rect.top;
+  } else {
+    x = e.clientX - rect.left;
+    y = e.clientY - rect.top;
+  }
+  ripple.style.left = (x - size / 2) + 'px';
+  ripple.style.top = (y - size / 2) + 'px';
+  cell.appendChild(ripple);
+  setTimeout(function() { ripple.remove(); }, 500);
+}
+
+// ═══════════════════════════════════════════
+// RECORDS MODAL
+// ═══════════════════════════════════════════
+function showRecords() {
+  const records = loadRecords();
+  const diffs = ['easy', 'medium', 'hard', 'expert'];
+
+  let html = '';
+  for (const diff of diffs) {
+    const r = records[diff];
+    const bestTime = r.bestTime !== null ? formatTime(r.bestTime) : '--:--';
+    const bestScore = r.bestScore || 0;
+
+    html +=
+      '<div class="record-item" data-diff="' + diff + '">' +
+        '<div class="record-diff">' + DIFFICULTY_CONFIG[diff].label + '</div>' +
+        '<div class="record-stats">' +
+          '<div class="record-stat">' +
+            '<span class="record-stat-val">' + bestTime + '</span>' +
+            '<span class="record-stat-label">최고 기록</span>' +
+          '</div>' +
+          '<div class="record-stat">' +
+            '<span class="record-stat-val">' + bestScore + '점</span>' +
+            '<span class="record-stat-label">최고 점수</span>' +
+          '</div>' +
+          '<div class="record-stat">' +
+            '<span class="record-stat-val">' + r.gamesWon + '/' + r.gamesPlayed + '</span>' +
+            '<span class="record-stat-label">승리/총게임</span>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  recordsList.innerHTML = html;
+  modalRecords.classList.add('show');
+}
+
+function confirmNewGame() {
+  const active = document.querySelector('.diff-btn.active');
+  const diff = active ? active.dataset.diff : 'medium';
+  modalNew.classList.remove('show');
+  newGame(diff);
+}
+
+// ═══════════════════════════════════════════
+// PERSISTENCE (localStorage)
+// ═══════════════════════════════════════════
+function saveGame() {
+  const data = {
+    version: 1,
+    size: state.size,
+    difficulty: state.difficulty,
+    solution: state.solution,
+    clues: { rows: state.rowClues, cols: state.colClues },
+    board: state.board,
+    timer: state.timer,
+    score: state.score,
+    selectedCell: state.selectedCell,
+    history: state.history.slice(-100),
+    errorDisplay: state.errorDisplay,
+    gameOver: state.gameOver,
+    createdAt: state.createdAt,
+    lastSavedAt: Date.now()
+  };
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (e) {
+    console.warn('Failed to save game:', e);
+  }
+}
+
+function saveGameDebounced() {
+  if (saveDebounce) clearTimeout(saveDebounce);
+  saveDebounce = setTimeout(function() { saveGame(); }, 300);
+}
+
+function loadGame() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      newGame('medium');
+      return;
+    }
+    const data = JSON.parse(raw);
+    const validSize = data && [5, 7, 9, 10].indexOf(data.size) !== -1;
+    if (!validSize || !data.board || !data.solution || !data.clues ||
+        data.version !== 1 ||
+        data.board.length !== data.size * data.size ||
+        data.solution.length !== data.size * data.size ||
+        !data.clues.rows || data.clues.rows.length !== data.size ||
+        !data.clues.cols || data.clues.cols.length !== data.size) {
+      newGame('medium');
+      return;
+    }
+
+    state.size = data.size;
+    state.solution = data.solution;
+    state.rowClues = data.clues.rows;
+    state.colClues = data.clues.cols;
+    state.board = data.board;
+    state.difficulty = data.difficulty || 'medium';
+    state.timer = data.timer || 0;
+    state.score = data.score !== undefined ? data.score : 100;
+    state.selectedCell = data.selectedCell || null;
+    state.history = data.history || [];
+    state.future = [];
+    state.errorDisplay = data.errorDisplay !== false;
+    state.gameOver = data.gameOver || false;
+    state.createdAt = data.createdAt || Date.now();
+
+    diffBadge.textContent = (DIFFICULTY_CONFIG[state.difficulty] || DIFFICULTY_CONFIG.medium).label;
+    diffBadge.dataset.diff = DIFFICULTY_CONFIG[state.difficulty] ? state.difficulty : 'medium';
+    btnErrors.classList.toggle('error-toggle-on', state.errorDisplay);
+    buildBoard();
+    render();
+  } catch (e) {
+    console.warn('Failed to load game:', e);
+    newGame('medium');
+  }
+}
+
+// ═══════════════════════════════════════════
+// TOAST — 3.5 seconds for elderly readability
+// ═══════════════════════════════════════════
+let toastTimeout = null;
+function showToast(msg) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  if (toastTimeout) clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(function() { toastEl.classList.remove('show'); }, 3500);
+}
+
+// ═══════════════════════════════════════════
+// LAUNCH
+// ═══════════════════════════════════════════
+init();
+
+})();
+</script>
+</body>
+</html>
