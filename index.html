@@ -368,6 +368,13 @@ body{
 .cell.error-mark{
   background:var(--error-bg);
 }
+/* Completion-time mistake flash — strong red ring, shown regardless of errorDisplay */
+.cell.error-flash{
+  background:var(--error-bg);
+  box-shadow:inset 0 0 0 3px var(--error);
+  animation:cellPop 400ms ease;
+}
+.cell.error-flash .value.mark-square{color:var(--error);font-weight:var(--weight-extrabold)}
 .cell.error-mark .value.mark-x{color:var(--error);font-weight:var(--weight-extrabold)}
 /* Selected cell — unmistakable orange ring (ring only, keeps fill/error colors) */
 .cell.selected{
@@ -1902,12 +1909,41 @@ function updateUndoButtons() {
 }
 
 function checkWin() {
+  let emptyCount = 0;
+  let wrongCells = [];
   for (let i = 0; i < state.board.length; i++) {
     const mark = state.board[i];
-    if (mark === 0) return;
-    if (mark === 1 && !state.solution[i]) return;
-    if (mark === 2 && state.solution[i]) return;
+    if (mark === 0) {
+      emptyCount++;
+      continue;
+    }
+    const isWrong = (mark === 1) !== !!state.solution[i];
+    if (isWrong) wrongCells.push(i);
   }
+  // Board fully marked but contains mistakes — tell the player instead of silently returning
+  if (emptyCount === 0 && wrongCells.length > 0) {
+    showToast('틀린 칸이 ' + wrongCells.length + '개 있어요');
+    for (let k = 0; k < wrongCells.length; k++) {
+      const cell = state.cellEls[wrongCells[k]];
+      cell.classList.add('error-flash');
+      const v = cell.querySelector('.value');
+      if (v) {
+        v.textContent = (state.board[wrongCells[k]] === 1) ? '■' : '✕';
+        v.classList.add('mark-square');
+      }
+    }
+    setTimeout(function() {
+      for (let k = 0; k < wrongCells.length; k++) {
+        const cell = state.cellEls[wrongCells[k]];
+        if (cell) {
+          cell.classList.remove('error-flash');
+          render();
+        }
+      }
+    }, 1500);
+    return;
+  }
+  if (emptyCount > 0 || wrongCells.length > 0) return;
   // WIN!
   state.gameOver = true;
   stopTimer();
