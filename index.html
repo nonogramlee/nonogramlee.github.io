@@ -1070,6 +1070,367 @@ const DIFFICULTY_CONFIG = {
   expert: { size: 20, density: 0.45, label: '전문가' }
 };
 
+// Pixel-art patterns. Each entry is a row-array of strings; '#' = filled
+// cell, '.' = empty cell. Every row must be exactly `size` characters long
+// (validated at startup via validatePatterns). Puzzles are built by picking
+// one of these patterns randomly and applying a random rotation/flip, so the
+// completed grid always reads as a recognizable picture.
+const PIXEL_ART = {
+  10: [
+    // 하트
+    [
+      '..#....#..',
+      '.####.####',
+      '##########',
+      '##########',
+      '.########.',
+      '..######..',
+      '...####...',
+      '....##....',
+      '.....#....',
+      '....#.....'
+    ],
+    // 별
+    [
+      '....##....',
+      '...####...',
+      '..######..',
+      '.#########',
+      '##########',
+      '...####...',
+      '...####...',
+      '...####...',
+      '..##..##..',
+      '..##..##..'
+    ],
+    // 사과
+    [
+      '.....#....',
+      '.....##...',
+      '.....##...',
+      '..#######.',
+      '.#########',
+      '##########',
+      '##########',
+      '.########.',
+      '..######..',
+      '...####...'
+    ],
+    // 고양이 얼굴
+    [
+      '##.#....##',
+      '##.#....##',
+      '##########',
+      '.##....##.',
+      '.########.',
+      '.########.',
+      '.########.',
+      '.#......#.',
+      '..######..',
+      '...####...'
+    ],
+    // 물고기
+    [
+      '##....##..',
+      '###...###.',
+      '####..####',
+      '#####.####',
+      '##########',
+      '##########',
+      '#####.####',
+      '####..####',
+      '###...###.',
+      '##....##..'
+    ]
+  ],
+  12: [
+    // 강아지 얼굴
+    [
+      '###......###',
+      '###......###',
+      '############',
+      '.##..##..##.',
+      '.##########.',
+      '############',
+      '##.######.##',
+      '############',
+      '############',
+      '..########..',
+      '....####....',
+      '......##....'
+    ],
+    // 집
+    [
+      '.....##.....',
+      '....####....',
+      '...######...',
+      '..########..',
+      '.##########.',
+      '############',
+      '##........##',
+      '##..##..##..',
+      '##..##..##..',
+      '##........##',
+      '##...##...##',
+      '############'
+    ],
+    // 나무
+    [
+      '.....##.....',
+      '....####....',
+      '...######...',
+      '...######...',
+      '..########..',
+      '..########..',
+      '.##########.',
+      '.##########.',
+      '...######...',
+      '....####....',
+      '.....##.....',
+      '.....##.....'
+    ],
+    // 컵
+    [
+      '....####....',
+      '..########..',
+      '.###########',
+      '.###########',
+      '.##########.',
+      '.###########',
+      '.###########',
+      '..##########',
+      '...####.....',
+      '....####....',
+      '....######..',
+      '....######..'
+    ],
+    // 새
+    [
+      '..#.........',
+      '..###.......',
+      '.#####......',
+      '.########...',
+      '.##########.',
+      '############',
+      '.##########.',
+      '..########..',
+      '...######...',
+      '....####....',
+      '.....##.....',
+      '.....##.....'
+    ]
+  ],
+  15: [
+    // 자동차
+    [
+      '....####.......',
+      '....######.....',
+      '..##########...',
+      '..##########...',
+      '.############..',
+      '.############..',
+      '.############..',
+      '.############..',
+      '###############',
+      '###############',
+      '###############',
+      '#########.#####',
+      '###.......####.',
+      '.##.....##.....',
+      '...............'
+    ],
+    // 배
+    [
+      '.....##........',
+      '.....##........',
+      '.....##........',
+      '.....##........',
+      '....##.........',
+      '....########...',
+      '...##########..',
+      '..############.',
+      '..#############',
+      '.##############',
+      '.##############',
+      '##############.',
+      '#############..',
+      '############...',
+      '...............'
+    ],
+    // 꽃
+    [
+      '.......#.......',
+      '......###......',
+      '....#####......',
+      '...#######.....',
+      '..#########....',
+      '..#####.#####..',
+      '.#######.####..',
+      '.###########...',
+      '..#########....',
+      '...#######.....',
+      '....#####......',
+      '......###......',
+      '.......#.......',
+      '.......#.......',
+      '.......#.......'
+    ],
+    // 사람 얼굴
+    [
+      '......###......',
+      '.....#####.....',
+      '....#######....',
+      '....#######....',
+      '...#########...',
+      '...##.....##...',
+      '...##.....##...',
+      '...##.....##...',
+      '...#########...',
+      '.....#####.....',
+      '.....#####.....',
+      '......#........',
+      '......#........',
+      '....######.....',
+      '....######.....'
+    ],
+    // 우산
+    [
+      '.......#.......',
+      '....#######....',
+      '..###########..',
+      '.#############.',
+      '.#############.',
+      '.#############.',
+      '..###########..',
+      '......##.##....',
+      '...............',
+      '.......#.......',
+      '.......#.......',
+      '.......#.......',
+      '.......#.......',
+      '.......#.......',
+      '.......##......'
+    ]
+  ],
+  20: [
+    // 부엉이
+    [
+      '....#######.........',
+      '...##########.......',
+      '..############......',
+      '..####..##..####....',
+      '..####..##..####....',
+      '..############......',
+      '..############......',
+      '..############......',
+      '..############......',
+      '...##########.......',
+      '....########........',
+      '....########........',
+      '...##########.......',
+      '..############......',
+      '.##############.....',
+      '.################...',
+      '.################...',
+      '.################...',
+      '..##############....',
+      '...#..#..#..#..#....'
+    ],
+    // 로켓
+    [
+      '.......####.........',
+      '......######........',
+      '......######........',
+      '.....########.......',
+      '.....########.......',
+      '....##########......',
+      '....##########......',
+      '....##########......',
+      '....##......##......',
+      '....###....###......',
+      '....###....###......',
+      '....##......##......',
+      '....##########......',
+      '....##########......',
+      '....##########......',
+      '....##########......',
+      '.....##...##........',
+      '..#########.#####...',
+      '.#################..',
+      '.####.########.####.'
+    ],
+    // 달과 별
+    [
+      '......####....#.....',
+      '.....######...#.....',
+      '....########...###..',
+      '....########..#####.',
+      '....##.######.####..',
+      '....##...####...#...',
+      '....##....###..###..',
+      '....##....###.#####.',
+      '....##....###.#####.',
+      '....##....###..###..',
+      '....##....###.......',
+      '....##....###.......',
+      '....##....###.......',
+      '....##....###.......',
+      '....##....###.......',
+      '....##...####.......',
+      '....##.######.......',
+      '....########........',
+      '.....######.........',
+      '......####..........'
+    ],
+    // 번개
+    [
+      '.........##.........',
+      '.........###........',
+      '.........####.......',
+      '........#####.......',
+      '........#####.......',
+      '.......####.........',
+      '.......####.........',
+      '......####..........',
+      '......###...........',
+      '.....####...........',
+      '.....####...........',
+      '....####............',
+      '....###.............',
+      '...####.............',
+      '...####.............',
+      '..####..............',
+      '..####..............',
+      '.####...............',
+      '.###................',
+      '.##.................'
+    ],
+    // 고양이
+    [
+      '###..............###',
+      '###..............###',
+      '###..............###',
+      '####################',
+      '####################',
+      '####.##........##.##',
+      '####.##........##.##',
+      '####################',
+      '#####..#######..####',
+      '#####..#######..####',
+      '#####..#######..####',
+      '######.#######.#####',
+      '####################',
+      '####################',
+      '..################..',
+      '...##############...',
+      '....############....',
+      '....############....',
+      '....###########.....',
+      '....########........'
+    ]
+  ]
+};
+
 let state = {
   size: 12,
   solution: [],      // flat 0/1 array — the answer grid (kept private)
@@ -1294,100 +1655,145 @@ function countSolutions(rowClues, colClues, n, limit) {
 // ═══════════════════════════════════════════
 // NONOGRAM GENERATOR — random solution grid
 // ═══════════════════════════════════════════
-function randInt(max) {
-  return Math.floor(Math.random() * max);
+// ── Pixel-art transform helpers ────────────
+// Work on row-arrays of strings; every row must share the same length.
+
+function rotate90(rows) {
+  const h = rows.length;
+  const w = rows[0].length;
+  const out = [];
+  for (let c = 0; c < w; c++) {
+    let line = '';
+    for (let r = h - 1; r >= 0; r--) line += rows[r][c];
+    out.push(line);
+  }
+  return out;
 }
 
-function generateSolution(size, density) {
-  const target = Math.round(size * size * density);
+function rotateGrid(rows, times) {
+  let out = rows;
+  for (let k = 0; k < times % 4; k++) out = rotate90(out);
+  return out;
+}
+
+function flipH(rows) {
+  return rows.map(function(row) {
+    return row.split('').reverse().join('');
+  });
+}
+
+function flipV(rows) {
+  return rows.slice().reverse();
+}
+
+// All distinct dihedral variants (rotations + flips) of a pattern.
+function patternVariants(rows) {
+  const variants = [];
+  const seen = new Set();
+  for (let rot = 0; rot < 4; rot++) {
+    const base = rotateGrid(rows, rot);
+    const cands = [base, flipH(base), flipV(base), flipH(flipV(base))];
+    for (let i = 0; i < cands.length; i++) {
+      const key = cands[i].join('\n');
+      if (!seen.has(key)) {
+        seen.add(key);
+        variants.push(cands[i]);
+      }
+    }
+  }
+  return variants;
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+  }
+  return arr;
+}
+
+// Center a pattern inside a `size` x `size` grid (crops if the pattern is
+// larger, pads with empty cells if smaller). Returns a flat 0/1 array.
+function patternToGrid(rows, size) {
+  const ph = rows.length;
+  const pw = rows[0].length;
   const grid = new Array(size * size).fill(0);
-  let count = 0;
-
-  // Organic random walks — creates contiguous runs instead of uniform noise
-  let guard = 0;
-  const walkCap = target * 20 + 300;
-  while (count < target && guard < walkCap) {
-    guard++;
-    let r = randInt(size);
-    let c = randInt(size);
-    const len = 2 + randInt(Math.min(5, size - 1));
-    for (let i = 0; i < len && count < target; i++) {
-      const idx = r * size + c;
-      if (!grid[idx]) {
-        grid[idx] = 1;
-        count++;
-      }
-      const d = randInt(4);
-      const dr = [0, 1, 0, -1][d];
-      const dc = [1, 0, -1, 0][d];
-      r += dr;
-      c += dc;
-      if (r < 0 || r >= size || c < 0 || c >= size) {
-        r = randInt(size);
-        c = randInt(size);
+  const or = Math.floor((size - ph) / 2);
+  const oc = Math.floor((size - pw) / 2);
+  for (let r = 0; r < ph; r++) {
+    const src = rows[r];
+    for (let c = 0; c < pw; c++) {
+      if (src[c] !== '#') continue;
+      const gr = or + r;
+      const gc = oc + c;
+      if (gr >= 0 && gr < size && gc >= 0 && gc < size) {
+        grid[gr * size + gc] = 1;
       }
     }
   }
-
-  // Top up remaining cells randomly
-  guard = 0;
-  while (count < target && guard < target * 10) {
-    guard++;
-    const i = randInt(size * size);
-    if (!grid[i]) {
-      grid[i] = 1;
-      count++;
-    }
-  }
-
-  // Ensure no row/col is completely empty or completely full
-  for (let pass = 0; pass < 3; pass++) {
-    for (let r = 0; r < size; r++) {
-      let filled = 0;
-      for (let c = 0; c < size; c++) filled += grid[r * size + c];
-      if (filled === 0) {
-        grid[r * size + randInt(size)] = 1;
-        count++;
-      } else if (filled === size) {
-        grid[r * size + randInt(size)] = 0;
-        count--;
-      }
-    }
-    for (let c = 0; c < size; c++) {
-      let filled = 0;
-      for (let r = 0; r < size; r++) filled += grid[r * size + c];
-      if (filled === 0) {
-        grid[randInt(size) * size + c] = 1;
-        count++;
-      } else if (filled === size) {
-        grid[randInt(size) * size + c] = 0;
-        count--;
-      }
-    }
-  }
-
-  // Trim overshoot back toward the target density. Only cells whose row and
-  // column both keep at least one filled cell are removable, so the
-  // no-empty/no-full line invariant survives the trim.
-  guard = 0;
-  while (count > target && guard < count * 8) {
-    guard++;
-    const i = randInt(size * size);
-    if (!grid[i]) continue;
-    const r = Math.floor(i / size);
-    const c = i % size;
-    let rCount = 0;
-    let cCount = 0;
-    for (let x = 0; x < size; x++) {
-      rCount += grid[r * size + x];
-      cCount += grid[x * size + c];
-    }
-    if (rCount <= 1 || cCount <= 1) continue;
-    grid[i] = 0;
-    count--;
-  }
-
   return grid;
+}
+
+// Sanity-check every pattern in the dataset: exact square dimensions, only
+// '#'/'.' characters, and at least one non-empty / one non-full row so the
+// puzzle actually produces clues. Logs problems and returns true if valid.
+function validatePatterns() {
+  let ok = true;
+  Object.keys(PIXEL_ART).forEach(function(sizeStr) {
+    const size = parseInt(sizeStr, 10);
+    const patterns = PIXEL_ART[size];
+    if (!patterns || patterns.length === 0) {
+      console.warn('[pattern] size ' + size + ' has no patterns');
+      ok = false;
+      return;
+    }
+    patterns.forEach(function(p, idx) {
+      if (!p || p.length !== size) {
+        console.warn('[pattern] ' + size + 'x' + size + ' #' + idx + ' has ' +
+          (p ? p.length : 0) + ' rows (need ' + size + ')');
+        ok = false;
+        return;
+      }
+      let filled = 0;
+      let emptyRows = 0;
+      let fullRows = 0;
+      for (let r = 0; r < size; r++) {
+        const row = p[r];
+        if (row.length !== size) {
+          console.warn('[pattern] ' + size + 'x' + size + ' #' + idx + ' row ' +
+            r + ' is ' + row.length + ' chars (need ' + size + ')');
+          ok = false;
+        }
+        let rowFilled = 0;
+        for (let c = 0; c < size; c++) {
+          const ch = row[c];
+          if (ch === '#') {
+            filled++;
+            rowFilled++;
+          } else if (ch !== '.') {
+            console.warn('[pattern] ' + size + 'x' + size + ' #' + idx + ' row ' +
+              r + ' col ' + c + ' has invalid char "' + ch + '"');
+            ok = false;
+          }
+        }
+        if (rowFilled === 0) emptyRows++;
+        if (rowFilled === size) fullRows++;
+      }
+      if (filled < size) {
+        console.warn('[pattern] ' + size + 'x' + size + ' #' + idx +
+          ' has only ' + filled + ' filled cells');
+        ok = false;
+      }
+      if (emptyRows === size || fullRows === size) {
+        console.warn('[pattern] ' + size + 'x' + size + ' #' + idx +
+          ' is all-empty or all-full — produces no clues');
+        ok = false;
+      }
+    });
+  });
+  return ok;
 }
 
 function computeClues(grid, size) {
@@ -1429,22 +1835,26 @@ function computeClues(grid, size) {
 }
 
 function generatePuzzle(size, density) {
-  let last = null;
-  // Main attempts at the requested density
-  for (let attempt = 0; attempt < 30; attempt++) {
-    const grid = generateSolution(size, density);
-    const clues = computeClues(grid, size);
-    last = { grid: grid, clues: clues };
-    if (countSolutions(clues.rows, clues.cols, size, 2) === 1) {
-      return last;
-    }
+  // Build the full attempt pool: every pattern x every distinct variant,
+  // shuffled so each new game picks a different picture. Pool size is
+  // patterns * up-to-8 variants — far more attempts than the old random
+  // generator, so a real pixel-art puzzle is essentially always produced.
+  const pool = PIXEL_ART[size] || PIXEL_ART[10];
+  const attempts = [];
+  for (let p = 0; p < pool.length; p++) {
+    const variants = patternVariants(pool[p]);
+    for (let v = 0; v < variants.length; v++) attempts.push(variants[v]);
   }
-  // Fallback: accept the first unique puzzle even if density drifts a little
-  for (let attempt = 0; attempt < 60; attempt++) {
-    const drift = Math.min(0.60, Math.max(0.25, density + (Math.random() - 0.5) * 0.12));
-    const grid = generateSolution(size, drift);
+  shuffle(attempts);
+
+  let last = null;
+  for (let i = 0; i < attempts.length; i++) {
+    const grid = patternToGrid(attempts[i], size);
     const clues = computeClues(grid, size);
     last = { grid: grid, clues: clues };
+    // Keep the uniqueness check: non-unique variants are skipped so the
+    // puzzle stays unambiguous. If every variant fails we still fall back to
+    // the last valid (picture-forming) grid.
     if (countSolutions(clues.rows, clues.cols, size, 2) === 1) {
       return last;
     }
@@ -1490,6 +1900,7 @@ const btnCloseRules = document.getElementById('btnCloseRules');
 // INITIALIZATION
 // ═══════════════════════════════════════════
 function init() {
+  validatePatterns();
   buildBoard();
   bindEvents();
   loadGame();
@@ -1789,6 +2200,17 @@ function confirmReset() {
   showToast('🔄 게임을 다시 시작합니다');
 }
 
+// A cell counts as "done" only when its mark matches the answer:
+// filled (1) on a black cell, X (2) on a white cell. Empty cells (0) are
+// never done — even on white cells — so hints keep marking them until the
+// whole board matches the solution.
+function isCellCorrect(i) {
+  const mark = state.board[i];
+  if (mark === 1) return state.solution[i] === 1;
+  if (mark === 2) return state.solution[i] === 0;
+  return false;
+}
+
 function giveHint() {
   if (state.gameOver) return;
 
@@ -1796,13 +2218,13 @@ function giveHint() {
   if (state.selectedCell) {
     const [sr, sc] = state.selectedCell;
     const i = sr * state.size + sc;
-    if (state.board[i] !== state.solution[i]) hi = i;
+    if (!isCellCorrect(i)) hi = i;
   }
 
   if (hi < 0) {
     const candidates = [];
     for (let i = 0; i < state.board.length; i++) {
-      if (state.board[i] !== state.solution[i]) candidates.push(i);
+      if (!isCellCorrect(i)) candidates.push(i);
     }
     if (candidates.length === 0) {
       showToast('❌ 힌트를 사용할 칸이 없습니다');
@@ -1868,6 +2290,7 @@ function redo() {
     state.board[d.i] = d.next;
   }
   render();
+  checkWin();
   saveGame();
   updateUndoButtons();
 }
@@ -1877,11 +2300,24 @@ function updateUndoButtons() {
 }
 
 function checkWin() {
-  let emptyCount = 0;
+  let wrong = 0;
+  let empty = 0;
   for (let i = 0; i < state.board.length; i++) {
-    if (state.board[i] === 0) emptyCount++;
+    if (state.board[i] === 0) {
+      empty++;
+    } else if (!isCellCorrect(i)) {
+      wrong++;
+    }
   }
-  if (emptyCount > 0) return;
+  if (empty > 0 || wrong > 0) {
+    // Board fully marked but still has mistakes — subtle toast only, no
+    // flashy red-mark UI.
+    if (empty === 0 && wrong > 0 && Date.now() - lastWrongToastAt > 4000) {
+      lastWrongToastAt = Date.now();
+      showToast('아직 틀린 칸이 ' + wrong + '개 있어요');
+    }
+    return;
+  }
   // WIN!
   state.gameOver = true;
   stopTimer();
@@ -2064,8 +2500,7 @@ function render() {
     let ok = true;
     for (let c = 0; c < size; c++) {
       const i = r * size + c;
-      const mark = state.board[i];
-      if (mark === 0 || (mark === 1) !== !!state.solution[i]) {
+      if (!isCellCorrect(i)) {
         ok = false;
         break;
       }
@@ -2076,8 +2511,7 @@ function render() {
     let ok = true;
     for (let r = 0; r < size; r++) {
       const i = r * size + c;
-      const mark = state.board[i];
-      if (mark === 0 || (mark === 1) !== !!state.solution[i]) {
+      if (!isCellCorrect(i)) {
         ok = false;
         break;
       }
@@ -2300,6 +2734,7 @@ function loadGame() {
 // TOAST — 3.5 seconds for elderly readability
 // ═══════════════════════════════════════════
 let toastTimeout = null;
+let lastWrongToastAt = 0;
 function showToast(msg) {
   toastEl.textContent = msg;
   toastEl.classList.add('show');
