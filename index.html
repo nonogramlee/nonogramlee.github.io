@@ -2224,17 +2224,20 @@ function giveHint() {
   if (hi < 0) {
     const candidates = [];
     for (let i = 0; i < state.board.length; i++) {
-      if (!isCellCorrect(i)) candidates.push(i);
+      // 힌트는 정답이 '채워지는 칸(1)'인데 현재 비어있거나 잘못 표시된 경우만 추천
+      if (state.solution[i] === 1 && state.board[i] !== 1) {
+        candidates.push(i);
+      }
     }
     if (candidates.length === 0) {
-      showToast('❌ 힌트를 사용할 칸이 없습니다');
+      showToast('✅ 모든 채워지는 칸을 찾았습니다!');
       return;
     }
     hi = candidates[Math.floor(Math.random() * candidates.length)];
   }
 
   const prev = state.board[hi];
-  const next = state.solution[hi] ? 1 : 2;
+  const next = 1; // 무조건 채우기(1)만 수행
   state.board[hi] = next;
   state.score = Math.max(0, state.score - 1);
   updateScoreDisplay();
