@@ -502,10 +502,22 @@ body{
   padding:var(--space-8) var(--space-6);
   width:100%;
   max-width:400px;
+  max-height:calc(100vh - var(--space-8) * 2);
+  display:flex;
+  flex-direction:column;
   box-shadow:0 24px 64px rgba(0,0,0,0.25);
   text-align:center;
   animation:modalIn 250ms ease;
   border:3px solid var(--border);
+}
+.modal-header, .modal-actions{
+  flex-shrink:0;
+}
+.modal-body{
+  flex:1;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  padding:0 var(--space-2);
 }
 @keyframes modalIn{
   from{opacity:0;transform:scale(0.92) translateY(10px)}
@@ -943,9 +955,120 @@ body{
 <div class="modal-overlay" id="modalNewGame">
   <div class="modal">
     <div class="modal-header">
-      <span class="modal-emoji">🧩</span>
+      <span class="modal-emoji">🎮</span>
       <h2>새 게임</h2>
     </div>
+    <div class="modal-body">
+      <p>난이도를 선택하세요</p>
+      <div class="diff-grid" role="group" aria-label="난이도 선택">
+        <button class="diff-btn" data-diff="easy"><span class="diff-name">쉬움</span><span class="diff-desc">10×10 칸</span></button>
+        <button class="diff-btn" data-diff="medium"><span class="diff-name">보통</span><span class="diff-desc">12×12 칸</span></button>
+        <button class="diff-btn" data-diff="hard"><span class="diff-name">어려움</span><span class="diff-desc">15×15 칸</span></button>
+        <button class="diff-btn" data-diff="expert"><span class="diff-name">전문가</span><span class="diff-desc">20×20 칸</span></button>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="btnCancelNew">취소</button>
+      <button class="btn btn-primary" id="btnConfirmNew">시작하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- Win Modal -->
+<div class="modal-overlay" id="modalWin">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-emoji">🎉</span>
+      <h2>축하합니다!</h2>
+    </div>
+    <div class="modal-body">
+      <p>퍼즐을 완성했습니다</p>
+      <div id="winNewRecord" class="new-record-badge" style="display:none">🏆 새 기록!</div>
+      <div class="completion-stats">
+        <div class="stat"><span class="stat-val" id="winTime">00:00</span><span class="stat-label">소요 시간</span></div>
+        <div class="stat"><span class="stat-val" id="winDiff">-</span><span class="stat-label">난이도</span></div>
+        <div class="stat"><span class="stat-val" id="winScore">0</span><span class="stat-label">점수</span></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="btnWinNew">새 게임</button>
+    </div>
+  </div>
+</div>
+
+<!-- Records Modal -->
+<div class="modal-overlay" id="modalRecords">
+  <div class="modal modal-records">
+    <div class="modal-header">
+      <span class="modal-emoji">🏆</span>
+      <h2>기록</h2>
+    </div>
+    <div class="modal-body">
+      <div class="records-list" id="recordsList"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="btnCloseRecords">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- Rules Modal -->
+<div class="modal-overlay" id="modalRules">
+  <div class="modal modal-rules">
+    <div class="modal-header">
+      <span class="modal-emoji">📋</span>
+      <h2>게임 규칙</h2>
+    </div>
+    <div class="modal-body">
+      <div class="rules-content">
+        <div class="rule-section">
+          <h3>🎯 기본 규칙</h3>
+          <p>각 줄의 숫자는 그 줄에 검은 칸이 연속으로 몇 칸씩 있는지 나타냅니다.<br>예: 가로줄에 [2,1]이면 2칸, 1칸 순서로 검은 칸이 있습니다.</p>
+        </div>
+        <div class="rule-section">
+          <h3>👆 칸 채우기</h3>
+          <p>칸을 누르면 빈칸 → 채움 → X 표시 → 빈칸 순서로 바뀝니다.<br>칸을 누른 채로 밀면 여러 칸을 한 번에 채울 수 있습니다.</p>
+        </div>
+        <div class="rule-section">
+          <h3>❌ X 표시</h3>
+          <p>채우지 않아야 하는 칸에 X 표시를 하면 헷갈리지 않습니다.<br>검은 칸 자리에 X를 표시하면 빨간색으로 알려줍니다.</p>
+        </div>
+        <div class="rule-section">
+          <h3>🏁 완성 조건</h3>
+          <p>모든 검은 칸을 정확히 채우고 모든 흰 칸에 X를 표시하면 완성입니다.<br>완성된 줄의 숫자는 흐려집니다.</p>
+        </div>
+        <div class="rule-section">
+          <h3>⭐ 점수 시스템</h3>
+          <div class="score-rules">
+            <div class="score-rule">
+              <span class="score-icon">🏁</span>
+              <span class="score-text">시작 점수</span>
+              <span class="score-value positive">100점</span>
+            </div>
+            <div class="score-rule">
+              <span class="score-icon">⏱️</span>
+              <span class="score-text">시간 페널티</span>
+              <span class="score-value negative">1분당 -1점</span>
+            </div>
+            <div class="score-rule">
+              <span class="score-icon">💡</span>
+              <span class="score-text">힌트 사용</span>
+              <span class="score-value negative">-1점</span>
+            </div>
+          </div>
+          <p class="score-note">* 최소 0점까지 감소합니다<br>* 빨리 완성하고 힌트를 적게 사용할수록 높은 점수</p>
+        </div>
+        <div class="rule-section">
+          <h3>💡 힌트</h3>
+          <p>선택한 칸의 정답을 알려줍니다.<br>선택 없이 사용하면 랜덤 칸에 힌트가 갑니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="btnCloseRules">닫기</button>
+    </div>
+  </div>
+</div>
     <p>난이도를 선택하세요</p>
     <div class="diff-grid">
       <button class="diff-btn" data-diff="easy"><span class="diff-name">쉬움</span><span class="diff-desc">10×10 칸</span></button>
