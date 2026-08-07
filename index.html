@@ -9,11 +9,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>아빠의 네모로직 - 무료 노노그램 퍼즐 게임</title>
-  <meta name="description" content="아빠의 네모로직 - 큰 글씨와 넉넉한 버튼으로 아빠를 위한 무료 노노그램 퍼즐 게임. 쉬움·보통·어려움·전문가 4단계 난이도, 힌트·오답 표시 기능과 기록 저장을 지원합니다.">
+  <meta name="description" content="아빠의 네모로직 - 큰 글씨와 넉넉한 버튼으로 아빠를 위한 무료 노노그램 퍼즐 게임. 쉬움·보통·어려움·전문가 4단계 난이도, 힌트·기록 저장을 지원합니다.">
   <link rel="canonical" href="https://nonogramlee.github.io/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="아빠의 네모로직 - 무료 노노그램 퍼즐 게임">
-  <meta property="og:description" content="아빠의 네모로직 - 큰 글씨와 넉넉한 버튼으로 아빠를 위한 무료 노노그램 퍼즐 게임. 쉬움·보통·어려움·전문가 4단계 난이도, 힌트·오답 표시 기능과 기록 저장을 지원합니다.">
+  <meta property="og:description" content="아빠의 네모로직 - 큰 글씨와 넉넉한 버튼으로 아빠를 위한 무료 노노그램 퍼즐 게임. 쉬움·보통·어려움·전문가 4단계 난이도, 힌트·기록 저장을 지원합니다.">
   <meta property="og:url" content="https://nonogramlee.github.io/">
   <meta property="og:site_name" content="아빠의 네모로직">
   <meta property="og:locale" content="ko_KR">
@@ -358,25 +358,11 @@ body{
   font-weight:var(--weight-bold);
 }
 .cell .value.mark-x{color:var(--text-muted)}
-.cell .value.mark-square{color:var(--cell-filled)}
-.cell .value.error-x{color:var(--error)}
 .cell.filled{
   background:var(--cell-filled);
   border-color:var(--cell-filled);
 }
-/* Wrong marks — subtle red tint (toggleable) */
-.cell.error-mark{
-  background:var(--error-bg);
-}
-/* Completion-time mistake flash — strong red ring, shown regardless of errorDisplay */
-.cell.error-flash{
-  background:var(--error-bg);
-  box-shadow:inset 0 0 0 3px var(--error);
-  animation:cellPop 400ms ease;
-}
-.cell.error-flash .value.mark-square{color:var(--error);font-weight:var(--weight-extrabold)}
-.cell.error-mark .value.mark-x{color:var(--error);font-weight:var(--weight-extrabold)}
-/* Selected cell — unmistakable orange ring (ring only, keeps fill/error colors) */
+/* Selected cell — unmistakable orange ring (ring only, keeps fill colors) */
 .cell.selected{
   box-shadow:inset 0 0 0 3px #D97706;
 }
@@ -495,12 +481,6 @@ body{
   background:var(--error-bg);
   border-color:var(--error);
   color:var(--error);
-}
-/* Error-display toggle active state */
-.action-btn.error-toggle-on{
-  background:#DBEAFE;
-  border-color:#2563EB;
-  color:#2563EB;
 }
 
 /* ═══════════════════════════════════════
@@ -925,7 +905,6 @@ body{
       <button class="action-btn action-erase" id="btnErase"><span class="btn-icon">❌</span>지우기</button>
       <button class="action-btn" id="btnHint"><span class="btn-icon">💡</span>힌트 도움</button>
       <button class="action-btn" id="btnUndo"><span class="btn-icon">↩</span>되돌리기</button>
-      <button class="action-btn error-toggle-on" id="btnErrors"><span class="btn-icon">🔍</span>오답 표시</button>
     </div>
   </div>
 </div>
@@ -969,10 +948,10 @@ body{
     </div>
     <p>난이도를 선택하세요</p>
     <div class="diff-grid">
-      <button class="diff-btn" data-diff="easy"><span class="diff-name">쉬움</span><span class="diff-desc">5×5 칸</span></button>
-      <button class="diff-btn active" data-diff="medium"><span class="diff-name">보통</span><span class="diff-desc">7×7 칸</span></button>
-      <button class="diff-btn" data-diff="hard"><span class="diff-name">어려움</span><span class="diff-desc">9×9 칸</span></button>
-      <button class="diff-btn" data-diff="expert"><span class="diff-name">전문가</span><span class="diff-desc">10×10 칸</span></button>
+      <button class="diff-btn" data-diff="easy"><span class="diff-name">쉬움</span><span class="diff-desc">10×10 칸</span></button>
+      <button class="diff-btn active" data-diff="medium"><span class="diff-name">보통</span><span class="diff-desc">12×12 칸</span></button>
+      <button class="diff-btn" data-diff="hard"><span class="diff-name">어려움</span><span class="diff-desc">15×15 칸</span></button>
+      <button class="diff-btn" data-diff="expert"><span class="diff-name">전문가</span><span class="diff-desc">20×20 칸</span></button>
     </div>
     <div class="modal-actions">
       <button class="btn btn-secondary" id="btnCancelNew">취소</button>
@@ -1085,14 +1064,14 @@ const STORAGE_KEY = 'nonogram_game_v1';
 const RECORDS_KEY = 'nonogram_records_v1';
 const HISTORY_LIMIT = 200;
 const DIFFICULTY_CONFIG = {
-  easy:   { size: 5,  density: 0.30, label: '쉬움' },
-  medium: { size: 7,  density: 0.35, label: '보통' },
-  hard:   { size: 9,  density: 0.40, label: '어려움' },
-  expert: { size: 10, density: 0.45, label: '전문가' }
+  easy:   { size: 10, density: 0.30, label: '쉬움' },
+  medium: { size: 12, density: 0.35, label: '보통' },
+  hard:   { size: 15, density: 0.40, label: '어려움' },
+  expert: { size: 20, density: 0.45, label: '전문가' }
 };
 
 let state = {
-  size: 7,
+  size: 12,
   solution: [],      // flat 0/1 array — the answer grid (kept private)
   rowClues: [],      // rowClues[r] = [run lengths]
   colClues: [],
@@ -1104,7 +1083,6 @@ let state = {
   selectedCell: null,
   history: [],
   future: [],
-  errorDisplay: true,
   gameOver: false,
   createdAt: Date.now(),
   lastSavedAt: Date.now()
@@ -1493,7 +1471,6 @@ const modalRules = document.getElementById('modalRules');
 const btnUndo = document.getElementById('btnUndo');
 const btnErase = document.getElementById('btnErase');
 const btnHint = document.getElementById('btnHint');
-const btnErrors = document.getElementById('btnErrors');
 const btnNewGame = document.getElementById('btnNewGame');
 const btnRecords = document.getElementById('btnRecords');
 const btnRules = document.getElementById('btnRules');
@@ -1571,9 +1548,9 @@ function updateBoardLayout() {
   const maxRowClueNum = maxRowClues || 1;
   const maxColClueNum = maxColClues || 1;
 
-  const cellCaps = { 5: 58, 7: 50, 9: 44, 10: 40 };
-  const cellCap = cellCaps[size] || 44;
-  const maxW = Math.min(window.innerWidth - 8, 428);
+  const cellCaps = { 10: 58, 12: 50, 15: 40, 20: 32 };
+  const cellCap = cellCaps[size] || 40;
+  const maxW = Math.min(window.innerWidth - 40, 428);
   const clueUnit = 12;
 
   // Left column holds row clues; top row holds column clues
@@ -1581,12 +1558,12 @@ function updateBoardLayout() {
   const clueRowH = Math.min(maxColClueNum * clueUnit + 10, 100);
 
   let cell = Math.floor((maxW - clueColW) / size);
-  cell = Math.max(24, Math.min(cell, cellCap));
+  cell = Math.max(10, Math.min(cell, cellCap));
 
   // Short screens (landscape) — keep the board inside the viewport height
   if (window.innerHeight <= 640) {
     const hFit = Math.floor((window.innerHeight - 190) / size);
-    cell = Math.max(22, Math.min(cell, hFit));
+    cell = Math.max(10, Math.min(cell, hFit));
   }
 
   boardEl.style.setProperty('--cell-size', cell + 'px');
@@ -1639,7 +1616,6 @@ function bindEvents() {
   btnUndo.addEventListener('click', undo);
   btnErase.addEventListener('click', eraseCell);
   btnHint.addEventListener('click', giveHint);
-  btnErrors.addEventListener('click', toggleErrorDisplay);
   btnNewGame.addEventListener('click', function() {
     modalNew.classList.add('show');
   });
@@ -1813,14 +1789,6 @@ function confirmReset() {
   showToast('🔄 게임을 다시 시작합니다');
 }
 
-function toggleErrorDisplay() {
-  state.errorDisplay = !state.errorDisplay;
-  btnErrors.classList.toggle('error-toggle-on', state.errorDisplay);
-  render();
-  saveGame();
-  showToast(state.errorDisplay ? '🔍 오답 표시 켜짐' : '🔍 오답 표시 꺼짐');
-}
-
 function giveHint() {
   if (state.gameOver) return;
 
@@ -1910,40 +1878,10 @@ function updateUndoButtons() {
 
 function checkWin() {
   let emptyCount = 0;
-  let wrongCells = [];
   for (let i = 0; i < state.board.length; i++) {
-    const mark = state.board[i];
-    if (mark === 0) {
-      emptyCount++;
-      continue;
-    }
-    const isWrong = (mark === 1) !== !!state.solution[i];
-    if (isWrong) wrongCells.push(i);
+    if (state.board[i] === 0) emptyCount++;
   }
-  // Board fully marked but contains mistakes — tell the player instead of silently returning
-  if (emptyCount === 0 && wrongCells.length > 0) {
-    showToast('틀린 칸이 ' + wrongCells.length + '개 있어요');
-    for (let k = 0; k < wrongCells.length; k++) {
-      const cell = state.cellEls[wrongCells[k]];
-      cell.classList.add('error-flash');
-      const v = cell.querySelector('.value');
-      if (v) {
-        v.textContent = (state.board[wrongCells[k]] === 1) ? '■' : '✕';
-        v.classList.add('mark-square');
-      }
-    }
-    setTimeout(function() {
-      for (let k = 0; k < wrongCells.length; k++) {
-        const cell = state.cellEls[wrongCells[k]];
-        if (cell) {
-          cell.classList.remove('error-flash');
-          render();
-        }
-      }
-    }, 1500);
-    return;
-  }
-  if (emptyCount > 0 || wrongCells.length > 0) return;
+  if (emptyCount > 0) return;
   // WIN!
   state.gameOver = true;
   stopTimer();
@@ -2153,27 +2091,18 @@ function render() {
     const r = Math.floor(i / size);
     const c = i % size;
     const mark = state.board[i];
-    const wrong = mark !== 0 && (mark === 1) !== !!state.solution[i];
     const value = cell.querySelector('.value');
 
     cell.className = 'cell';
 
     if (mark === 1) {
       cell.classList.add('filled');
-      value.textContent = (wrong && state.errorDisplay) ? '■' : '';
+      value.textContent = '';
       value.className = 'value';
-      if (wrong && state.errorDisplay) {
-        cell.classList.add('error-mark');
-        value.classList.add('mark-square');
-      }
     } else if (mark === 2) {
       cell.classList.add('marked-x');
       value.textContent = '✕';
       value.className = 'value mark-x';
-      if (wrong && state.errorDisplay) {
-        cell.classList.add('error-mark');
-        value.classList.add('error-x');
-      }
     } else {
       value.textContent = '';
       value.className = 'value';
@@ -2308,7 +2237,6 @@ function saveGame() {
     score: state.score,
     selectedCell: state.selectedCell,
     history: state.history.slice(-100),
-    errorDisplay: state.errorDisplay,
     gameOver: state.gameOver,
     createdAt: state.createdAt,
     lastSavedAt: Date.now()
@@ -2333,7 +2261,7 @@ function loadGame() {
       return;
     }
     const data = JSON.parse(raw);
-    const validSize = data && [5, 7, 9, 10].indexOf(data.size) !== -1;
+    const validSize = data && [10, 12, 15, 20].indexOf(data.size) !== -1;
     if (!validSize || !data.board || !data.solution || !data.clues ||
         data.version !== 1 ||
         data.board.length !== data.size * data.size ||
@@ -2355,13 +2283,11 @@ function loadGame() {
     state.selectedCell = data.selectedCell || null;
     state.history = data.history || [];
     state.future = [];
-    state.errorDisplay = data.errorDisplay !== false;
     state.gameOver = data.gameOver || false;
     state.createdAt = data.createdAt || Date.now();
 
     diffBadge.textContent = (DIFFICULTY_CONFIG[state.difficulty] || DIFFICULTY_CONFIG.medium).label;
     diffBadge.dataset.diff = DIFFICULTY_CONFIG[state.difficulty] ? state.difficulty : 'medium';
-    btnErrors.classList.toggle('error-toggle-on', state.errorDisplay);
     buildBoard();
     render();
   } catch (e) {
