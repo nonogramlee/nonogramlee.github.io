@@ -2531,14 +2531,15 @@ function render() {
   const selR = state.selectedCell ? state.selectedCell[0] : -1;
   const selC = state.selectedCell ? state.selectedCell[1] : -1;
 
-  // Row/col completion
+  // Row/col completion — a line is done once every black cell in it is
+  // filled (white-cell X marks are not required, matching the win check).
   const rowDone = [];
   const colDone = [];
   for (let r = 0; r < size; r++) {
     let ok = true;
     for (let c = 0; c < size; c++) {
       const i = r * size + c;
-      if (!isCellCorrect(i)) {
+      if (state.solution[i] === 1 && state.board[i] !== 1) {
         ok = false;
         break;
       }
@@ -2549,7 +2550,7 @@ function render() {
     let ok = true;
     for (let r = 0; r < size; r++) {
       const i = r * size + c;
-      if (!isCellCorrect(i)) {
+      if (state.solution[i] === 1 && state.board[i] !== 1) {
         ok = false;
         break;
       }
