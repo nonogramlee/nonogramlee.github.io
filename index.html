@@ -2191,7 +2191,6 @@ function markSelected(mark) {
   state.board[i] = mark;
   pushHistory([{ i: i, prev: prev, next: mark }]);
   render();
-  autoFillCompletedLines();
   checkWin();
   saveGame();
 }
@@ -2245,56 +2244,6 @@ function isCellCorrect(i) {
   return false;
 }
 
-// A line is solved once every black cell in it is filled correctly.
-function isRowSolved(r) {
-  for (let c = 0; c < state.size; c++) {
-    const i = r * state.size + c;
-    if (state.solution[i] === 1 && state.board[i] !== 1) return false;
-  }
-  return true;
-}
-
-function isColSolved(c) {
-  for (let r = 0; r < state.size; r++) {
-    const i = r * state.size + c;
-    if (state.solution[i] === 1 && state.board[i] !== 1) return false;
-  }
-  return true;
-}
-
-// Auto-mark X on the remaining empty white cells of every solved line, so
-// completed rows/columns get struck through without extra tapping. Only
-// called after player actions; never touches history (the X marks are a
-// visual aid, not a player move).
-function autoFillCompletedLines() {
-  const size = state.size;
-  let changed = false;
-  for (let r = 0; r < size; r++) {
-    if (!isRowSolved(r)) continue;
-    for (let c = 0; c < size; c++) {
-      const i = r * size + c;
-      if (state.board[i] === 0 && state.solution[i] === 0) {
-        state.board[i] = 2;
-        changed = true;
-      }
-    }
-  }
-  for (let c = 0; c < size; c++) {
-    if (!isColSolved(c)) continue;
-    for (let r = 0; r < size; r++) {
-      const i = r * size + c;
-      if (state.board[i] === 0 && state.solution[i] === 0) {
-        state.board[i] = 2;
-        changed = true;
-      }
-    }
-  }
-  if (changed) {
-    render();
-    saveGame();
-  }
-}
-
 function giveHint() {
   if (state.gameOver) return;
 
@@ -2342,7 +2291,6 @@ function giveHint() {
   }
 
   showToast('💡 힌트 사용!');
-  autoFillCompletedLines();
   checkWin();
   saveGame();
 }
@@ -2378,7 +2326,6 @@ function redo() {
     state.board[d.i] = d.next;
   }
   render();
-  autoFillCompletedLines();
   checkWin();
   saveGame();
   updateUndoButtons();
@@ -2484,7 +2431,6 @@ function finishDrag() {
   dragState = null;
   if (diffs.length > 0) {
     pushHistory(diffs);
-    autoFillCompletedLines();
     checkWin();
     saveGame();
   }
