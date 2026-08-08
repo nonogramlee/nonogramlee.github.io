@@ -990,8 +990,8 @@ const DIFFICULTY_CONFIG = {
 // Pixel-art patterns. Each entry is a row-array of strings; '#' = filled
 // cell, '.' = empty cell. Every row must be exactly `size` characters long
 // (validated at startup via validatePatterns). Puzzles are built by picking
-// one of these patterns randomly and applying a random rotation/flip, so the
-// completed grid always reads as a recognizable picture.
+// one of these patterns randomly, always in its original upright
+// orientation.
 const PIXEL_ART = {
   20: [
     // 1. 하트
@@ -1683,54 +1683,8 @@ function countSolutions(rowClues, colClues, n, limit) {
 // ═══════════════════════════════════════════
 // NONOGRAM GENERATOR — random solution grid
 // ═══════════════════════════════════════════
-// ── Pixel-art transform helpers ────────────
-// Work on row-arrays of strings; every row must share the same length.
-
-function rotate90(rows) {
-  const h = rows.length;
-  const w = rows[0].length;
-  const out = [];
-  for (let c = 0; c < w; c++) {
-    let line = '';
-    for (let r = h - 1; r >= 0; r--) line += rows[r][c];
-    out.push(line);
-  }
-  return out;
-}
-
-function rotateGrid(rows, times) {
-  let out = rows;
-  for (let k = 0; k < times % 4; k++) out = rotate90(out);
-  return out;
-}
-
-function flipH(rows) {
-  return rows.map(function(row) {
-    return row.split('').reverse().join('');
-  });
-}
-
-function flipV(rows) {
-  return rows.slice().reverse();
-}
-
-// All distinct dihedral variants (rotations + flips) of a pattern.
-function patternVariants(rows) {
-  const variants = [];
-  const seen = new Set();
-  for (let rot = 0; rot < 4; rot++) {
-    const base = rotateGrid(rows, rot);
-    const cands = [base, flipH(base), flipV(base), flipH(flipV(base))];
-    for (let i = 0; i < cands.length; i++) {
-      const key = cands[i].join('\n');
-      if (!seen.has(key)) {
-        seen.add(key);
-        variants.push(cands[i]);
-      }
-    }
-  }
-  return variants;
-}
+// Pixel-art patterns are used in their original orientation (no random
+// rotation/flip).
 
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -1863,18 +1817,14 @@ function computeClues(grid, size) {
 }
 
 function generatePuzzle(size, density) {
-  // Build the full attempt pool: every pattern x every distinct variant,
-  // shuffled so each new game picks a different picture. Pool size is
-  // patterns * up-to-8 variants — far more attempts than the old random
-  // generator, so a real pixel-art puzzle is essentially always produced.
+  // Build the attempt pool from the pixel-art patterns in their original
+  // upright orientation (no random rotation/flip), shuffled so each new
+  // game picks a different picture.
   const pool = PIXEL_ART[size] || PIXEL_ART[20];
   const names = PIXEL_ART_NAMES[size] || PIXEL_ART_NAMES[20];
   const attempts = [];
   for (let p = 0; p < pool.length; p++) {
-    const variants = patternVariants(pool[p]);
-    for (let v = 0; v < variants.length; v++) {
-      attempts.push({ rows: variants[v], name: names[p] });
-    }
+    attempts.push({ rows: pool[p], name: names[p] });
   }
   shuffle(attempts);
 
@@ -1883,9 +1833,9 @@ function generatePuzzle(size, density) {
     const grid = patternToGrid(attempts[i].rows, size);
     const clues = computeClues(grid, size);
     last = { grid: grid, clues: clues, name: attempts[i].name };
-    // Keep the uniqueness check: non-unique variants are skipped so the
-    // puzzle stays unambiguous. If every variant fails we still fall back to
-    // the last valid (picture-forming) grid.
+    // Keep the uniqueness check: patterns without a unique solution are
+    // skipped so the puzzle stays unambiguous. If none passes we still fall
+    // back to the last valid (picture-forming) grid.
     if (countSolutions(clues.rows, clues.cols, size, 2) === 1) {
       return last;
     }
