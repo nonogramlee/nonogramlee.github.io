@@ -9,11 +9,11 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>아빠의 네모로직 - 무료 노노그램 퍼즐 게임</title>
-  <meta name="description" content="아빠의 네모로직 - 큰 글씨와 넉넉한 버튼으로 아빠를 위한 무료 노노그램 퍼즐 게임. 쉬움·보통·어려움·전문가 4단계 난이도, 힌트·기록 저장을 지원합니다.">
+  <meta name="description" content="아빠의 네모로직 - 큰 글씨와 넉넉한 버튼으로 아빠를 위한 무료 노노그램 퍼즐 게임. 힌트·기록 저장을 지원합니다.">
   <link rel="canonical" href="https://nonogramlee.github.io/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="아빠의 네모로직 - 무료 노노그램 퍼즐 게임">
-  <meta property="og:description" content="아빠의 네모로직 - 큰 글씨와 넉넉한 버튼으로 아빠를 위한 무료 노노그램 퍼즐 게임. 쉬움·보통·어려움·전문가 4단계 난이도, 힌트·기록 저장을 지원합니다.">
+  <meta property="og:description" content="아빠의 네모로직 - 큰 글씨와 넉넉한 버튼으로 아빠를 위한 무료 노노그램 퍼즐 게임. 힌트·기록 저장을 지원합니다.">
   <meta property="og:url" content="https://nonogramlee.github.io/">
   <meta property="og:site_name" content="아빠의 네모로직">
   <meta property="og:locale" content="ko_KR">
@@ -51,7 +51,6 @@
       "priceCurrency": "KRW"
     },
     "featureList": [
-      "4단계 난이도 (쉬움/보통/어려움/전문가)",
       "힌트 기능",
       "X 표시 모드",
       "기록 저장"
@@ -248,13 +247,6 @@ body{
   font-weight:var(--weight-bold);
   white-space:nowrap;
   line-height:1;
-}
-.difficulty-badge{
-  background:#DBEAFE;
-  color:#2563EB;
-  border-color:#2563EB;
-  letter-spacing:0.3px;
-  transition:all var(--transition-base);
 }
 .timer-group{
   background:var(--surface-raised);
@@ -639,11 +631,6 @@ body{
 .record-item:last-child{
   margin-bottom:0;
 }
-.record-diff{
-  font-size:var(--text-lg);
-  font-weight:var(--weight-bold);
-}
-.record-item[data-diff="medium"] .record-diff{color:#2563EB}
 .record-stats{
   display:flex;
   gap:var(--space-4);
@@ -803,7 +790,6 @@ body{
 
   <!-- Status bar — Large, clear info -->
   <div class="status-bar">
-    <span class="status-item difficulty-badge" id="diffBadge" data-diff="medium">보통</span>
     <div class="status-item timer-group">
       <span class="timer" id="timerDisplay">00:00</span>
     </div>
@@ -984,7 +970,7 @@ const STORAGE_KEY = 'nonogram_game_v1';
 const RECORDS_KEY = 'nonogram_records_v1';
 const HISTORY_LIMIT = 200;
 const DIFFICULTY_CONFIG = {
-  medium: { size: 20, density: 0.45, label: '보통' }
+  medium: { size: 20, density: 0.45 }
 };
 
 // Pixel-art patterns. Each entry is a row-array of strings; '#' = filled
@@ -1848,7 +1834,6 @@ function generatePuzzle(size, density) {
 // ═══════════════════════════════════════════
 const boardEl = document.getElementById('board');
 const timerEl = document.getElementById('timerDisplay');
-const diffBadge = document.getElementById('diffBadge');
 const scoreEl = document.getElementById('scoreCount');
 const toastEl = document.getElementById('toast');
 
@@ -2104,8 +2089,6 @@ function newGame(difficulty) {
 
   recordGamePlayed(difficulty);
 
-  diffBadge.textContent = cfg.label;
-  diffBadge.dataset.diff = difficulty;
   buildBoard();
   updateScoreDisplay();
   render();
@@ -2303,9 +2286,7 @@ function checkWin() {
 
   setTimeout(function() {
     document.getElementById('winTime').textContent = formatTime(state.timer);
-    const winDiffEl = document.getElementById('winDiff');
-    winDiffEl.textContent = DIFFICULTY_CONFIG[state.difficulty].label +
-      (state.puzzleName ? ' · ' + state.puzzleName : '');
+    document.getElementById('winDiff').textContent = state.puzzleName || '—';
     updateScoreDisplay();
     document.getElementById('winScore').textContent = state.score;
 
@@ -2601,8 +2582,7 @@ function showRecords() {
   const bestScore = r.bestScore || 0;
 
   let html =
-    '<div class="record-item" data-diff="' + diff + '">' +
-      '<div class="record-diff">' + DIFFICULTY_CONFIG[diff].label + '</div>' +
+    '<div class="record-item">' +
       '<div class="record-stats">' +
         '<div class="record-stat">' +
           '<span class="record-stat-val">' + bestTime + '</span>' +
@@ -2694,8 +2674,6 @@ function loadGame() {
     state.gameOver = data.gameOver || false;
     state.createdAt = data.createdAt || Date.now();
 
-    diffBadge.textContent = DIFFICULTY_CONFIG.medium.label;
-    diffBadge.dataset.diff = 'medium';
     buildBoard();
     render();
   } catch (e) {
