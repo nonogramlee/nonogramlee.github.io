@@ -986,7 +986,7 @@ body{
       <div id="winNewRecord" class="new-record-badge" style="display:none">🏆 새 기록!</div>
       <div class="completion-stats">
         <div class="stat"><span class="stat-val" id="winTime">00:00</span><span class="stat-label">소요 시간</span></div>
-        <div class="stat"><span class="stat-val" id="winDiff">-</span><span class="stat-label">난이도</span></div>
+        <div class="stat"><span class="stat-val" id="winDiff">-</span><span class="stat-label">퍼즐</span></div>
         <div class="stat"><span class="stat-val" id="winScore">0</span><span class="stat-label">점수</span></div>
       </div>
     </div>
@@ -1062,109 +1062,6 @@ body{
           <h3>💡 힌트</h3>
           <p>선택한 칸의 정답을 알려줍니다.<br>선택 없이 사용하면 랜덤 칸에 힌트가 갑니다.</p>
         </div>
-      </div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-primary" id="btnCloseRules">닫기</button>
-    </div>
-  </div>
-</div>
-    <p>난이도를 선택하세요</p>
-    <div class="diff-grid">
-      <button class="diff-btn" data-diff="easy"><span class="diff-name">쉬움</span><span class="diff-desc">10×10 칸</span></button>
-      <button class="diff-btn active" data-diff="medium"><span class="diff-name">보통</span><span class="diff-desc">12×12 칸</span></button>
-      <button class="diff-btn" data-diff="hard"><span class="diff-name">어려움</span><span class="diff-desc">15×15 칸</span></button>
-      <button class="diff-btn" data-diff="expert"><span class="diff-name">전문가</span><span class="diff-desc">20×20 칸</span></button>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" id="btnCancelNew">취소</button>
-      <button class="btn btn-primary" id="btnConfirmNew">시작하기</button>
-    </div>
-  </div>
-</div>
-
-<!-- Win Modal -->
-<div class="modal-overlay" id="modalWin">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-emoji">🎉</span>
-      <h2>축하합니다!</h2>
-    </div>
-    <p>퍼즐을 완성했습니다</p>
-    <div id="winNewRecord" class="new-record-badge" style="display:none">🏆 새 기록!</div>
-    <div class="completion-stats">
-      <div class="stat"><span class="stat-val" id="winTime">00:00</span><span class="stat-label">소요 시간</span></div>
-      <div class="stat"><span class="stat-val" id="winDiff">-</span><span class="stat-label">난이도</span></div>
-      <div class="stat"><span class="stat-val" id="winScore">0</span><span class="stat-label">점수</span></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-primary" id="btnWinNew">새 게임</button>
-    </div>
-  </div>
-</div>
-
-<!-- Records Modal -->
-<div class="modal-overlay" id="modalRecords">
-  <div class="modal modal-records">
-    <div class="modal-header">
-      <span class="modal-emoji">🏆</span>
-      <h2>기록</h2>
-    </div>
-    <div class="records-list" id="recordsList"></div>
-    <div class="modal-actions">
-      <button class="btn btn-primary" id="btnCloseRecords">닫기</button>
-    </div>
-  </div>
-</div>
-
-<!-- Rules Modal -->
-<div class="modal-overlay" id="modalRules">
-  <div class="modal modal-rules">
-    <div class="modal-header">
-      <span class="modal-emoji">📋</span>
-      <h2>게임 규칙</h2>
-    </div>
-    <div class="rules-content">
-      <div class="rule-section">
-        <h3>🎯 기본 규칙</h3>
-        <p>각 줄의 숫자는 그 줄에 검은 칸이 연속으로 몇 칸씩 있는지 나타냅니다.<br>예: 가로줄에 [2,1]이면 2칸, 1칸 순서로 검은 칸이 있습니다.</p>
-      </div>
-      <div class="rule-section">
-        <h3>👆 칸 채우기</h3>
-        <p>칸을 누르면 빈칸 → 채움 → X 표시 → 빈칸 순서로 바뀝니다.<br>칸을 누른 채로 밀면 여러 칸을 한 번에 채울 수 있습니다.</p>
-      </div>
-      <div class="rule-section">
-        <h3>❌ X 표시</h3>
-        <p>채우지 않아야 하는 칸에 X 표시를 하면 헷갈리지 않습니다.<br>검은 칸 자리에 X를 표시하면 빨간색으로 알려줍니다.</p>
-      </div>
-      <div class="rule-section">
-        <h3>🏁 완성 조건</h3>
-        <p>모든 검은 칸을 정확히 채우고 모든 흰 칸에 X를 표시하면 완성입니다.<br>완성된 줄의 숫자는 흐려집니다.</p>
-      </div>
-      <div class="rule-section">
-        <h3>⭐ 점수 시스템</h3>
-        <div class="score-rules">
-          <div class="score-rule">
-            <span class="score-icon">🏁</span>
-            <span class="score-text">시작 점수</span>
-            <span class="score-value positive">100점</span>
-          </div>
-          <div class="score-rule">
-            <span class="score-icon">⏱️</span>
-            <span class="score-text">시간 페널티</span>
-            <span class="score-value negative">1분당 -1점</span>
-          </div>
-          <div class="score-rule">
-            <span class="score-icon">💡</span>
-            <span class="score-text">힌트 사용</span>
-            <span class="score-value negative">-1점</span>
-          </div>
-        </div>
-        <p class="score-note">* 최소 0점까지 감소합니다<br>* 빨리 완성하고 힌트를 적게 사용할수록 높은 점수</p>
-      </div>
-      <div class="rule-section">
-        <h3>💡 힌트</h3>
-        <p>선택한 칸의 정답을 알려줍니다.<br>선택 없이 사용하면 랜덤 칸에 힌트가 갑니다.</p>
       </div>
     </div>
     <div class="modal-actions">
@@ -1554,6 +1451,14 @@ const PIXEL_ART = {
   ]
 };
 
+// Korean display names for each pattern, indexed to match PIXEL_ART order.
+const PIXEL_ART_NAMES = {
+  10: ['하트', '별', '사과', '고양이 얼굴', '물고기'],
+  12: ['강아지 얼굴', '집', '나무', '컵', '새'],
+  15: ['자동차', '배', '꽃', '사람 얼굴', '우산'],
+  20: ['부엉이', '로켓', '달과 별', '번개', '고양이']
+};
+
 let state = {
   size: 12,
   solution: [],      // flat 0/1 array — the answer grid (kept private)
@@ -1562,6 +1467,7 @@ let state = {
   board: [],         // player marks: 0 empty, 1 filled, 2 X
   cellEls: [],       // flat array of play cell elements
   difficulty: 'medium',
+  puzzleName: '',    // Korean name of the current picture
   timer: 0,
   score: 100,
   selectedCell: null,
@@ -1963,18 +1869,21 @@ function generatePuzzle(size, density) {
   // patterns * up-to-8 variants — far more attempts than the old random
   // generator, so a real pixel-art puzzle is essentially always produced.
   const pool = PIXEL_ART[size] || PIXEL_ART[10];
+  const names = PIXEL_ART_NAMES[size] || PIXEL_ART_NAMES[10];
   const attempts = [];
   for (let p = 0; p < pool.length; p++) {
     const variants = patternVariants(pool[p]);
-    for (let v = 0; v < variants.length; v++) attempts.push(variants[v]);
+    for (let v = 0; v < variants.length; v++) {
+      attempts.push({ rows: variants[v], name: names[p] });
+    }
   }
   shuffle(attempts);
 
   let last = null;
   for (let i = 0; i < attempts.length; i++) {
-    const grid = patternToGrid(attempts[i], size);
+    const grid = patternToGrid(attempts[i].rows, size);
     const clues = computeClues(grid, size);
-    last = { grid: grid, clues: clues };
+    last = { grid: grid, clues: clues, name: attempts[i].name };
     // Keep the uniqueness check: non-unique variants are skipped so the
     // puzzle stays unambiguous. If every variant fails we still fall back to
     // the last valid (picture-forming) grid.
@@ -2245,6 +2154,7 @@ function newGame(difficulty) {
   state.colClues = puzzle.clues.cols;
   state.board = new Array(cfg.size * cfg.size).fill(0);
   state.difficulty = difficulty;
+  state.puzzleName = puzzle.name || '';
   state.timer = 0;
   state.score = 100;
   state.selectedCell = null;
@@ -2281,6 +2191,7 @@ function markSelected(mark) {
   state.board[i] = mark;
   pushHistory([{ i: i, prev: prev, next: mark }]);
   render();
+  autoFillCompletedLines();
   checkWin();
   saveGame();
 }
@@ -2334,6 +2245,56 @@ function isCellCorrect(i) {
   return false;
 }
 
+// A line is solved once every black cell in it is filled correctly.
+function isRowSolved(r) {
+  for (let c = 0; c < state.size; c++) {
+    const i = r * state.size + c;
+    if (state.solution[i] === 1 && state.board[i] !== 1) return false;
+  }
+  return true;
+}
+
+function isColSolved(c) {
+  for (let r = 0; r < state.size; r++) {
+    const i = r * state.size + c;
+    if (state.solution[i] === 1 && state.board[i] !== 1) return false;
+  }
+  return true;
+}
+
+// Auto-mark X on the remaining empty white cells of every solved line, so
+// completed rows/columns get struck through without extra tapping. Only
+// called after player actions; never touches history (the X marks are a
+// visual aid, not a player move).
+function autoFillCompletedLines() {
+  const size = state.size;
+  let changed = false;
+  for (let r = 0; r < size; r++) {
+    if (!isRowSolved(r)) continue;
+    for (let c = 0; c < size; c++) {
+      const i = r * size + c;
+      if (state.board[i] === 0 && state.solution[i] === 0) {
+        state.board[i] = 2;
+        changed = true;
+      }
+    }
+  }
+  for (let c = 0; c < size; c++) {
+    if (!isColSolved(c)) continue;
+    for (let r = 0; r < size; r++) {
+      const i = r * size + c;
+      if (state.board[i] === 0 && state.solution[i] === 0) {
+        state.board[i] = 2;
+        changed = true;
+      }
+    }
+  }
+  if (changed) {
+    render();
+    saveGame();
+  }
+}
+
 function giveHint() {
   if (state.gameOver) return;
 
@@ -2381,6 +2342,7 @@ function giveHint() {
   }
 
   showToast('💡 힌트 사용!');
+  autoFillCompletedLines();
   checkWin();
   saveGame();
 }
@@ -2416,6 +2378,7 @@ function redo() {
     state.board[d.i] = d.next;
   }
   render();
+  autoFillCompletedLines();
   checkWin();
   saveGame();
   updateUndoButtons();
@@ -2426,21 +2389,21 @@ function updateUndoButtons() {
 }
 
 function checkWin() {
-  let wrong = 0;
-  let empty = 0;
+  // Win condition: every black cell (solution[i] === 1) must be filled
+  // correctly. X marks on white cells are optional — only the black cells
+  // matter, so the win modal appears as soon as the picture is complete.
+  let remaining = 0;
   for (let i = 0; i < state.board.length; i++) {
-    if (state.board[i] === 0) {
-      empty++;
-    } else if (!isCellCorrect(i)) {
-      wrong++;
+    if (state.solution[i] === 1 && state.board[i] !== 1) {
+      remaining++;
     }
   }
-  if (empty > 0 || wrong > 0) {
+  if (remaining > 0) {
     // Board fully marked but still has mistakes — subtle toast only, no
     // flashy red-mark UI.
-    if (empty === 0 && wrong > 0 && Date.now() - lastWrongToastAt > 4000) {
+    if (Date.now() - lastWrongToastAt > 4000) {
       lastWrongToastAt = Date.now();
-      showToast('아직 틀린 칸이 ' + wrong + '개 있어요');
+      showToast('아직 채워야 할 칸이 ' + remaining + '개 남았어요');
     }
     return;
   }
@@ -2454,7 +2417,9 @@ function checkWin() {
 
   setTimeout(function() {
     document.getElementById('winTime').textContent = formatTime(state.timer);
-    document.getElementById('winDiff').textContent = DIFFICULTY_CONFIG[state.difficulty].label;
+    const winDiffEl = document.getElementById('winDiff');
+    winDiffEl.textContent = DIFFICULTY_CONFIG[state.difficulty].label +
+      (state.puzzleName ? ' · ' + state.puzzleName : '');
     updateScoreDisplay();
     document.getElementById('winScore').textContent = state.score;
 
@@ -2519,6 +2484,7 @@ function finishDrag() {
   dragState = null;
   if (diffs.length > 0) {
     pushHistory(diffs);
+    autoFillCompletedLines();
     checkWin();
     saveGame();
   }
@@ -2790,6 +2756,7 @@ function saveGame() {
     version: 1,
     size: state.size,
     difficulty: state.difficulty,
+    puzzleName: state.puzzleName,
     solution: state.solution,
     clues: { rows: state.rowClues, cols: state.colClues },
     board: state.board,
@@ -2838,6 +2805,7 @@ function loadGame() {
     state.colClues = data.clues.cols;
     state.board = data.board;
     state.difficulty = data.difficulty || 'medium';
+    state.puzzleName = data.puzzleName || '';
     state.timer = data.timer || 0;
     state.score = data.score !== undefined ? data.score : 100;
     state.selectedCell = data.selectedCell || null;
